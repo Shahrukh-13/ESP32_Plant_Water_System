@@ -9,6 +9,7 @@ void setup()
   #endif
   Init_IO();
   Set_All_Digital_Outputs_Low();
+  App_Init();
   Hex_Encoder_Init();
   Water_Level_Sensor_Init();
   Timer_Init();
@@ -19,8 +20,10 @@ void loop()
 {
   //Hex_Encoder_Get();
   //Serial.println(HE.Hex_Encoder_Val); 
+  App_Mode_Loop();
   Water_Level_Loop();
   Motor_Loop();
+  Set_Leds();
 
   /*EBS.Drain_Bottle_Full_Val = digitalRead(WaterLevel_DrainBottle_Full);
   EBS.Refill_Bottle_Empty_Val = digitalRead(WaterLevel_RefillBottle_Empty);
@@ -46,4 +49,47 @@ void loop()
     Serial.print(WL.State);
     Serial.println();
   #endif
+}
+
+void App_Init()
+{
+  AC.LowLevel_Sensor_Bypass_Val = 0;
+  AC.Test_Mode_Val = 0;
+  AC.HeartBeat_Toggle = 0;
+  AC.State = APP_STATE_NORMAL;
+}
+
+void App_Mode_Loop()
+{
+  AC.Test_Mode_Val = digitalRead(Switch_TestMode);
+  
+  switch(AC.State)
+  {
+    case APP_STATE_NORMAL:
+      if(AC.Test_Mode_Val == 1)
+      {
+        AC.State = APP_STATE_TEST;
+      }
+      else
+      {
+        AC.State = APP_STATE_NORMAL;
+      }
+    break;
+
+    case APP_STATE_TEST:
+      if(AC.Test_Mode_Val == 0)
+      {
+        AC.State = APP_STATE_NORMAL;
+      }
+      else
+      {
+        Hex_Encoder_Get();
+        AC.State = APP_STATE_TEST;
+      }
+    break;
+
+    default:
+      /*Do Nothing*/
+    break;   
+  }
 }

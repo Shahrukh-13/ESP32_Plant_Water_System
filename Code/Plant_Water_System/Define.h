@@ -70,6 +70,12 @@ typedef enum
   MOTOR_STOP = 0,
   MOTOR_RUN,
 }motor_state_t;
+
+typedef enum
+{
+  APP_STATE_NORMAL = 0,
+  APP_STATE_TEST,
+}app_state_t;
 /*****************************************************/
 
 /******Structures************************************/
@@ -103,10 +109,12 @@ struct motor_status
   motor_state_t State;
 };
 
-struct main_config
+struct app_config
 {
+  app_state_t State;
   bool LowLevel_Sensor_Bypass_Val;
   bool Test_Mode_Val;
+  bool HeartBeat_Toggle;
 };
 
 /****************************************************/
@@ -115,7 +123,7 @@ struct main_config
 struct hex_encoder HE;
 struct water_level WL;
 struct external_bottle_sensor EBS;
-struct main_config MC;
+struct app_config AC;
 struct motor_status MS[MOTOR_MAX];
 /****************************************************/
 

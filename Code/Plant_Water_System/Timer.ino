@@ -3,7 +3,7 @@
 // Define the Interrupt Service Routine (ISR)
 void IRAM_ATTR onTimer()
 {
-  digitalWrite(HeartBeat_LED, !digitalRead(HeartBeat_LED)); 
+  AC.HeartBeat_Toggle= !AC.HeartBeat_Toggle;
 }
 
 void Timer_Init()

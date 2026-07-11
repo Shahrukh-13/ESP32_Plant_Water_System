@@ -89,3 +89,50 @@ void Set_All_Digital_Outputs_Low()
   mcp.digitalWrite(NU_0, LOW);
   mcp.digitalWrite(NU_1, LOW);
 }
+
+
+void Set_Leds()
+{
+  //HeartBeat LED
+  digitalWrite(HeartBeat_LED, AC.HeartBeat_Toggle); 
+
+  //App Mode LED
+  if(AC.State == APP_STATE_NORMAL)
+  {
+    digitalWrite(TestMode_LED, LOW);
+  }
+  else
+  {
+    digitalWrite(TestMode_LED, HIGH);
+  }
+  
+  //Low Level Sensor Bypass LED
+  if(AC.LowLevel_Sensor_Bypass_Val == 0)
+  {
+    digitalWrite(DrainSensor_Bypass_LED, LOW);
+  }
+  else
+  {
+    digitalWrite(DrainSensor_Bypass_LED, HIGH);
+  }
+
+  //Drain Bottle Full LED
+  if(EBS.Drain_Bottle_Full_Val == 0)
+  {
+    digitalWrite(Drain_Bottle_Full_LED, LOW);
+  }
+  else
+  {
+    digitalWrite(Drain_Bottle_Full_LED, HIGH);
+  }
+
+  //Drain Bottle Empty LED
+  if(EBS.Refill_Bottle_Empty_Val == 0)
+  {
+    digitalWrite(Refill_Bottle_Empty_LED, LOW);
+  }
+  else
+  {
+    digitalWrite(Refill_Bottle_Empty_LED, HIGH);
+  }
+}
