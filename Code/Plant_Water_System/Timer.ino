@@ -1,5 +1,8 @@
 #include "Define.h" 
 
+//Create a pointer for the hardware timer
+hw_timer_t *timer = NULL;
+
 // Define the Interrupt Service Routine (ISR)
 void IRAM_ATTR onTimer()
 {

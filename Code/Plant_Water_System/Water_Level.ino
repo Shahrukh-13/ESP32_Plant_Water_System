@@ -2,8 +2,8 @@
 
 void Water_Level_Sensor_Init()
 {
-  WL.Sensor_Full_Val = 1;             // Low  (Sensor is configured an normally open)
-  WL.Sensor_Low_Val= 1;               // Low  (Sensor is configured an normally open)
+  WL.Sensor_Full_Val = 1;             // Water Level Low  (Sensor is configured an normally open)
+  WL.Sensor_Low_Val= 1;               // Water Level Low  (Sensor is configured an normally open)
   WL.State = WATER_LEVEL_LOW;
 }
 
@@ -30,9 +30,12 @@ void Water_Level_Loop()
     
         MS[MOTOR_REFILL].Motor_Good_To_Run = true;
         WL.State = WATER_LEVEL_LOW;
-        /*Serial.print(MC.LowLevel_Sensor_Bypass_Val);
-        Serial.print(" : ");
-        Serial.print(MS[MOTOR_DRAIN].Motor_Good_To_Run);*/
+
+        #ifdef SERIAL_DEBUG
+          /*Serial.print(MC.LowLevel_Sensor_Bypass_Val);
+          Serial.print(" : ");
+          Serial.print(MS[MOTOR_DRAIN].Motor_Good_To_Run);*/
+        #endif
       }
       else if(WL.Sensor_Full_Val == 1 && WL.Sensor_Low_Val == 0)
       {

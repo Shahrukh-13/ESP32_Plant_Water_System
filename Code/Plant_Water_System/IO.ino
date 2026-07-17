@@ -1,35 +1,119 @@
 #include "Define.h" 
 
+typedef enum 
+{
+  GPIO_INPUT = 0,
+  GPIO_OUTPUT,
+}gpio_dir_t;
+
+typedef enum 
+{
+  GPIO_NOPULL = 0,
+  GPIO_PULLUP,
+  GPIO_PULLDOWN
+}gpio_pull_t;
+
+struct gpio_config
+{
+  uint8_t     Gpio_Pin;
+  gpio_dir_t  Direction;
+  gpio_pull_t Pull;
+  bool        Init_Val;
+};
+
+struct gpio_config ESP32_GPIO[]= {
+  {WiFi_Status_LED,               GPIO_OUTPUT,  GPIO_NOPULL, 0},
+  #ifndef SERIAL_DEBUG
+    {Refill_Motor_Enable,         GPIO_OUTPUT,  GPIO_NOPULL, 0},
+  #endif
+  {HeartBeat_LED,                 GPIO_OUTPUT,  GPIO_NOPULL, 0},
+  #ifndef SERIAL_DEBUG
+    {Drain_Motor_Enable,          GPIO_OUTPUT,  GPIO_NOPULL, 0},
+  #endif
+  {DrainSensor_Bypass_LED,        GPIO_OUTPUT,  GPIO_NOPULL, 0},
+  {Switch_TestMode,               GPIO_INPUT,   GPIO_NOPULL, 0},  //External Pulldown
+  {WaterLevel_Tank_Low,           GPIO_INPUT,   GPIO_NOPULL, 1},  //External Pullup
+  {WaterLevel_Tank_Full,          GPIO_INPUT,   GPIO_NOPULL, 1},  //External Pullup
+  {WaterLevel_DrainBottle_Full,   GPIO_INPUT,   GPIO_NOPULL, 0},  //External Pullup
+  {TestMode_LED,                  GPIO_OUTPUT,  GPIO_NOPULL, 0},
+  {Drain_Bottle_Full_LED,         GPIO_OUTPUT,  GPIO_NOPULL, 0},
+  {Switch_ExternalRefill,         GPIO_INPUT,   GPIO_NOPULL, 0},  //External Pulldown
+  {Switch_LowLevel_Sensor_Bypass, GPIO_INPUT,   GPIO_NOPULL, 0},  //External Pulldown
+  {Button_TestMode_ValveEnable,   GPIO_INPUT,   GPIO_NOPULL, 0},  //External Pulldown
+  {Refill_Bottle_Empty_LED,       GPIO_OUTPUT,  GPIO_NOPULL, 0}, 
+  {WaterLevel_RefillBottle_Empty, GPIO_INPUT,   GPIO_NOPULL, 1},  //External Pullup
+  {HEX_1,                         GPIO_INPUT,   GPIO_NOPULL, 0},  //External Pulldown
+  {HEX_4,                         GPIO_INPUT,   GPIO_NOPULL, 0},  //External Pulldown
+  {HEX_2,                         GPIO_INPUT,   GPIO_NOPULL, 0},  //External Pulldown
+  {Switch_ExternalDrain,          GPIO_INPUT,   GPIO_NOPULL, 0},  //External Pulldown
+  {HEX_8,                         GPIO_INPUT,   GPIO_NOPULL, 0}   //External Pulldown
+};
+
+#define NUMBER_OF_ESP_GPIO  (sizeof(ESP32_GPIO))/(sizeof(ESP32_GPIO[0]))
+
+struct gpio_config MCP_GPIO[]= {
+  //MCP PORT A
+  {Harp_LED_0,                    GPIO_OUTPUT,  GPIO_NOPULL, 0},
+  {Harp_LED_1,                    GPIO_OUTPUT,  GPIO_NOPULL, 0},
+  {Harp_LED_2,                    GPIO_OUTPUT,  GPIO_NOPULL, 0},
+  {Harp_LED_3,                    GPIO_OUTPUT,  GPIO_NOPULL, 0},
+  {Harp_LED_4,                    GPIO_OUTPUT,  GPIO_NOPULL, 0},
+  {Change_Tank_Water_LED,         GPIO_OUTPUT,  GPIO_NOPULL, 0}, 
+  {NU_3,                          GPIO_OUTPUT,  GPIO_NOPULL, 0},  
+  {NU_2,                          GPIO_OUTPUT,  GPIO_NOPULL, 0},  
+  
+  //MCP PORT B
+  {Valve_0_Enable,                GPIO_OUTPUT,  GPIO_NOPULL, 0},  
+  {Valve_1_Enable,                GPIO_OUTPUT,  GPIO_NOPULL, 0},
+  {Valve_2_Enable,                GPIO_OUTPUT,  GPIO_NOPULL, 0},
+  {Valve_3_Enable,                GPIO_OUTPUT,  GPIO_NOPULL, 0},  
+  {Valve_4_Enable,                GPIO_OUTPUT,  GPIO_NOPULL, 0},  
+  {Valve_5_Enable,                GPIO_OUTPUT,  GPIO_NOPULL, 0},  
+  {NU_0,                          GPIO_OUTPUT,  GPIO_NOPULL, 0}, 
+  {NU_1,                          GPIO_OUTPUT,  GPIO_NOPULL, 0}
+};
+
+#define NUMBER_OF_MCP_GPIO  (sizeof(MCP_GPIO))/(sizeof(MCP_GPIO[0]))
+
 void Init_IO()
 {
-  pinMode(TestMode_LED, OUTPUT);
-  pinMode(HeartBeat_LED, OUTPUT);
-  pinMode(WiFi_Status_LED, OUTPUT);
-  pinMode(DrainSensor_Bypass_LED, OUTPUT);
-  pinMode(Drain_Bottle_Full_LED, OUTPUT);
+  Init_ESP32_Gpio();
+  Init_MCP_Gpio();
+}
 
-  #ifndef SERIAL_DEBUG
-    pinMode(Drain_Motor_Enable, OUTPUT);
-    pinMode(Refill_Motor_Enable, OUTPUT);
-  #endif
-  
-  pinMode(Refill_Bottle_Empty_LED, OUTPUT);
+void Init_ESP32_Gpio()
+{
+  for(uint8_t i=0; i<NUMBER_OF_ESP_GPIO; i++)
+  {
+    if(ESP32_GPIO[i].Direction == GPIO_INPUT)
+    {
+      if(ESP32_GPIO[i].Pull == GPIO_NOPULL)
+      {
+        pinMode(ESP32_GPIO[i].Gpio_Pin, INPUT);
+      }
+      else if(ESP32_GPIO[i].Pull == GPIO_PULLUP)
+      {
+        pinMode(ESP32_GPIO[i].Gpio_Pin, INPUT_PULLUP);
+      }
+      else if(ESP32_GPIO[i].Pull == GPIO_PULLDOWN) 
+      {
+        pinMode(ESP32_GPIO[i].Gpio_Pin, INPUT_PULLDOWN);
+      }
+    }
+    else if(ESP32_GPIO[i].Direction == GPIO_OUTPUT)
+    {
+      pinMode(ESP32_GPIO[i].Gpio_Pin, OUTPUT);
+      digitalWrite(ESP32_GPIO[i].Gpio_Pin, ESP32_GPIO[i].Init_Val);
+    }
+    else
+    {
+      /*Do Nothing*/
+    }
+  }
+}
 
-
-  pinMode(Switch_ExternalRefill, INPUT);
-  pinMode(Switch_TestMode, INPUT);
-  pinMode(Switch_LowLevel_Sensor_Bypass, INPUT);
-  pinMode(Button_TestMode_ValveEnable, INPUT);
-  pinMode(Switch_ExternalDrain, INPUT);
-  pinMode(HEX_8, INPUT);
-  pinMode(HEX_4, INPUT);
-  pinMode(HEX_2, INPUT);
-  pinMode(HEX_1, INPUT);
-  pinMode(WaterLevel_RefillBottle_Empty, INPUT);
-  pinMode(WaterLevel_DrainBottle_Full, INPUT);
-  pinMode(WaterLevel_Tank_Low, INPUT);
-  pinMode(WaterLevel_Tank_Full, INPUT);
-  
+void Init_MCP_Gpio()
+{
   // Initialize MCP23017
   if (!mcp.begin_I2C(0x20)) // A0:0, A1:0, A2:0
   {
@@ -38,56 +122,34 @@ void Init_IO()
     #endif
     while (1);
   }
-
-  // Configure GPA as Output
-  mcp.pinMode(Harp_LED_0, OUTPUT);
-  mcp.pinMode(Harp_LED_1, OUTPUT);
-  mcp.pinMode(Harp_LED_2, OUTPUT);
-  mcp.pinMode(Harp_LED_3, OUTPUT);
-  mcp.pinMode(Harp_LED_4, OUTPUT);
-  mcp.pinMode(Change_Tank_Water_LED, OUTPUT);
-  mcp.pinMode(NU_3, OUTPUT);
-  mcp.pinMode(NU_2, OUTPUT);
-
-  mcp.pinMode(Valve_0_Enable, OUTPUT);
-  mcp.pinMode(Valve_1_Enable, OUTPUT);
-  mcp.pinMode(Valve_2_Enable, OUTPUT);
-  mcp.pinMode(Valve_3_Enable, OUTPUT);
-  mcp.pinMode(Valve_4_Enable, OUTPUT);
-  mcp.pinMode(Valve_5_Enable, OUTPUT);          
-  mcp.pinMode(NU_0, OUTPUT);
-  mcp.pinMode(NU_1, OUTPUT);
-}
-
-void Set_All_Digital_Outputs_Low()
-{
-  digitalWrite(TestMode_LED, LOW);
-  digitalWrite(HeartBeat_LED, LOW);
-  digitalWrite(WiFi_Status_LED, LOW);
-  digitalWrite(DrainSensor_Bypass_LED, LOW);
-  digitalWrite(Drain_Bottle_Full_LED, LOW);
   
-  digitalWrite(Drain_Motor_Enable, LOW);
-  digitalWrite(Refill_Motor_Enable, LOW);
-  
-  digitalWrite(Refill_Bottle_Empty_LED, LOW);
-  
-  mcp.digitalWrite(Harp_LED_0, LOW);
-  mcp.digitalWrite(Harp_LED_1, LOW);
-  mcp.digitalWrite(Harp_LED_2, LOW);
-  mcp.digitalWrite(Harp_LED_3, LOW);
-  mcp.digitalWrite(Harp_LED_4, LOW);
-  mcp.digitalWrite(Change_Tank_Water_LED, LOW);
-  mcp.digitalWrite(NU_3, LOW);
-  mcp.digitalWrite(NU_2, LOW);
-  mcp.digitalWrite(Valve_0_Enable, LOW);
-  mcp.digitalWrite(Valve_1_Enable, LOW);
-  mcp.digitalWrite(Valve_2_Enable, LOW);
-  mcp.digitalWrite(Valve_3_Enable, LOW);
-  mcp.digitalWrite(Valve_4_Enable, LOW);
-  mcp.digitalWrite(Valve_5_Enable, LOW);
-  mcp.digitalWrite(NU_0, LOW);
-  mcp.digitalWrite(NU_1, LOW);
+  for(uint8_t i=0; i<NUMBER_OF_MCP_GPIO; i++)
+  {
+    if(MCP_GPIO[i].Direction == GPIO_INPUT)
+    {
+      if(MCP_GPIO[i].Pull == GPIO_NOPULL)
+      {
+        mcp.pinMode(MCP_GPIO[i].Gpio_Pin, INPUT);
+      }
+      else if(MCP_GPIO[i].Pull == GPIO_PULLUP)
+      {
+        mcp.pinMode(MCP_GPIO[i].Gpio_Pin, INPUT_PULLUP);
+      }
+      else if(MCP_GPIO[i].Pull == GPIO_PULLDOWN) // MCP23017 does not have internal pulldown 
+      {
+        mcp.pinMode(MCP_GPIO[i].Gpio_Pin, INPUT);
+      }
+    }
+    else if(MCP_GPIO[i].Direction == GPIO_OUTPUT)
+    {
+      mcp.pinMode(MCP_GPIO[i].Gpio_Pin, OUTPUT);
+      mcp.digitalWrite(MCP_GPIO[i].Gpio_Pin, MCP_GPIO[i].Init_Val);
+    }
+    else
+    {
+      /*Do Nothing*/
+    }
+  }
 }
 
 
@@ -135,4 +197,17 @@ void Set_Leds()
   {
     digitalWrite(Refill_Bottle_Empty_LED, HIGH);
   }
+}
+
+void Hex_Encoder_Get()
+{
+  bool Hex_1_Val = digitalRead(HEX_1);
+  bool Hex_2_Val = digitalRead(HEX_2);
+  bool Hex_4_Val = digitalRead(HEX_4);
+  bool Hex_8_Val = digitalRead(HEX_8);
+  
+  AC.Hex_Encoder_Val = ((Hex_8_Val << 3) |
+                        (Hex_4_Val << 2) | 
+                        (Hex_2_Val << 1) |
+                         Hex_1_Val);  
 }

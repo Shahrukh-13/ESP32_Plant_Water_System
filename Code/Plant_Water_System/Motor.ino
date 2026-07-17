@@ -19,9 +19,11 @@ void Motor_Loop()
   MS[MOTOR_DRAIN].Motor_Switch_val = digitalRead(Switch_ExternalDrain);
   MS[MOTOR_REFILL].Motor_Switch_val = digitalRead(Switch_ExternalRefill);
 
-  /*Serial.print(MS[MOTOR_DRAIN].Motor_Switch_val);
-  Serial.print(" : ");
-  Serial.print(MS[MOTOR_REFILL].Motor_Switch_val);*/
+  #ifdef SERIAL_DEBUG
+    /*Serial.print(MS[MOTOR_DRAIN].Motor_Switch_val);
+    Serial.print(" : ");
+    Serial.print(MS[MOTOR_REFILL].Motor_Switch_val);*/
+  #endif
 
   motor_id_t motor_id;
   
@@ -71,7 +73,7 @@ void Motor_Command(motor_id_t id, bool Enable)
   switch(id)
   {
     case MOTOR_DRAIN:
-      if(Enable == true)
+      if(Enable == true && AC.Valve_Is_Open == true)
       {
         if(EBS.Drain_Bottle_Full_Val == 0)
         {

@@ -25,8 +25,7 @@
 #define HEX_2                           35
 #define Switch_ExternalDrain            36
 #define HEX_8                           39
-
-#define ESP_MAX_GPIO_PINS               21     
+    
 
 //MCP A
 #define Harp_LED_0                      0
@@ -79,15 +78,6 @@ typedef enum
 /*****************************************************/
 
 /******Structures************************************/
-struct hex_encoder
-{
-  bool Hex_1_Val;
-  bool Hex_2_Val;
-  bool Hex_4_Val;
-  bool Hex_8_Val;
-  uint8_t Hex_Encoder_Val;
-};
-
 struct water_level
 {
   bool Sensor_Full_Val;
@@ -113,21 +103,20 @@ struct app_config
 {
   app_state_t State;
   bool LowLevel_Sensor_Bypass_Val;
-  bool Test_Mode_Val;
+  bool Test_Mode_Switch_Val;
   bool HeartBeat_Toggle;
+  uint8_t Hex_Encoder_Val;
+  bool Test_Mode_Valve_Button_Val;
+  bool Valve_Is_Open;
 };
 
 /****************************************************/
 
 /*****Varriables*************************************/
-struct hex_encoder HE;
 struct water_level WL;
 struct external_bottle_sensor EBS;
 struct app_config AC;
 struct motor_status MS[MOTOR_MAX];
 /****************************************************/
-
-//Create a pointer for the hardware timer
-hw_timer_t *timer = NULL;
 
 #endif // DEFINE_H
