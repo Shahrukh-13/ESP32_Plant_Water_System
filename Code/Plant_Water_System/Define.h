@@ -1,13 +1,16 @@
 #ifndef DEFINE_H
 #define DEFINE_H
 
+#include <Wire.h>
+#include <Adafruit_MCP23X17.h>
+
 //#define SERIAL_DEBUG
 
 //ESP32 Digital IO
 #define WiFi_Status_LED                 0
-#define Refill_Motor_Enable             1
-#define HeartBeat_LED                   2
-#define Drain_Motor_Enable              3
+#define HeartBeat_LED                   1
+#define Refill_Motor_Enable             2
+#define Refill_Bottle_Empty_LED         3
 #define DrainSensor_Bypass_LED          4
 #define Switch_TestMode                 5
 #define WaterLevel_Tank_Low             12
@@ -18,7 +21,7 @@
 #define Switch_ExternalRefill           17
 #define Switch_LowLevel_Sensor_Bypass   18
 #define Button_TestMode_ValveEnable     19
-#define Refill_Bottle_Empty_LED         23
+#define Drain_Motor_Enable              23
 #define WaterLevel_RefillBottle_Empty   27
 #define HEX_1                           32
 #define HEX_4                           34

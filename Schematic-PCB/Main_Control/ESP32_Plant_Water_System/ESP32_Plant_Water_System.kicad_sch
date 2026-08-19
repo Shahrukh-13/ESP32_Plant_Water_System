@@ -1,0 +1,182 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "64e7c123-a37e-4c97-a4d0-878b0b8be975")
+	(paper "A4")
+	(lib_symbols)
+	(sheet
+		(at 111.76 31.75)
+		(size 33.02 21.59)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "4c96beca-f61e-436e-93e8-aeca0024fd42")
+		(property "Sheetname" "Connectors"
+			(at 111.76 31.0384 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "connectors.kicad_sch"
+			(at 111.76 53.9246 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "ESP32_Plant_Water_System"
+				(path "/64e7c123-a37e-4c97-a4d0-878b0b8be975"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 71.12 31.75)
+		(size 33.02 20.32)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "61a4522a-919b-4f4e-8c41-87c0cf3aa6c5")
+		(property "Sheetname" "Power"
+			(at 71.12 31.0384 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "power.kicad_sch"
+			(at 71.12 52.6546 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "ESP32_Plant_Water_System"
+				(path "/64e7c123-a37e-4c97-a4d0-878b0b8be975"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 27.94 31.75)
+		(size 34.29 21.59)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "8571953b-7056-427a-b420-c9535fcddfe6")
+		(property "Sheetname" "MCU Sheet"
+			(at 27.94 31.0384 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mcu.kicad_sch"
+			(at 27.94 53.9246 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "ESP32_Plant_Water_System"
+				(path "/64e7c123-a37e-4c97-a4d0-878b0b8be975"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 152.4 31.75)
+		(size 34.29 21.59)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "9a90ea0c-75b0-4f80-86d3-049e26c3cf20")
+		(property "Sheetname" "Switches"
+			(at 152.4 31.0384 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "switches.kicad_sch"
+			(at 152.4 53.9246 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "ESP32_Plant_Water_System"
+				(path "/64e7c123-a37e-4c97-a4d0-878b0b8be975"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

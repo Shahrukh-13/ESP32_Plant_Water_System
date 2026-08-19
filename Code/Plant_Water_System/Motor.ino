@@ -1,5 +1,8 @@
 #include "Define.h" 
 
+#define MOTOR_ENABLE                 1
+#define MOTOR_DISABLE                0
+
 void Motor_Init()
 {
   MS[MOTOR_DRAIN].Motor_Good_To_Run = false;
@@ -80,7 +83,7 @@ void Motor_Command(motor_id_t id, bool Enable)
           #ifdef SERIAL_DEBUG
             //Serial.print("Drain _Motor: Enable , ");
           #else
-           digitalWrite(Drain_Motor_Enable, 1);
+           digitalWrite(Drain_Motor_Enable, MOTOR_ENABLE);
           #endif
         }
         else
@@ -88,7 +91,7 @@ void Motor_Command(motor_id_t id, bool Enable)
           #ifdef SERIAL_DEBUG
             //Serial.print("Drain _Motor: Stop , ");
           #else
-           digitalWrite(Drain_Motor_Enable, 0);
+           digitalWrite(Drain_Motor_Enable, MOTOR_DISABLE);
           #endif
         }
       }
@@ -97,7 +100,7 @@ void Motor_Command(motor_id_t id, bool Enable)
         #ifdef SERIAL_DEBUG
           //Serial.print("Drain _Motor: Stop , ");
         #else
-          digitalWrite(Drain_Motor_Enable, 0);
+          digitalWrite(Drain_Motor_Enable, MOTOR_DISABLE);
         #endif
       }
     break;
@@ -110,7 +113,7 @@ void Motor_Command(motor_id_t id, bool Enable)
           #ifdef SERIAL_DEBUG
             //Serial.print("Refill_Motor: Enable , ");
           #else
-            digitalWrite(Refill_Motor_Enable, 1);
+            digitalWrite(Refill_Motor_Enable, MOTOR_ENABLE);
           #endif
         }
         else
@@ -118,7 +121,7 @@ void Motor_Command(motor_id_t id, bool Enable)
           #ifdef SERIAL_DEBUG
             //Serial.print("Refill_Motor: Stop , ");
           #else
-            digitalWrite(Refill_Motor_Enable, 0);
+            digitalWrite(Refill_Motor_Enable, MOTOR_DISABLE);
           #endif          
         }
       }
@@ -127,7 +130,7 @@ void Motor_Command(motor_id_t id, bool Enable)
         #ifdef SERIAL_DEBUG
           //Serial.print("Refill_Motor: Stop , ");
         #else
-          digitalWrite(Refill_Motor_Enable, 0);
+          digitalWrite(Refill_Motor_Enable, MOTOR_DISABLE);
         #endif
       }
     break;

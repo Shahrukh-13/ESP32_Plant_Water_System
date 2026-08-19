@@ -75,13 +75,13 @@ struct gpio_config MCP_GPIO[]= {
 
 #define NUMBER_OF_MCP_GPIO  (sizeof(MCP_GPIO))/(sizeof(MCP_GPIO[0]))
 
-void Init_IO()
+void IO_Init()
 {
-  Init_ESP32_Gpio();
-  Init_MCP_Gpio();
+  ESP32_Gpio_Init();
+  MCP_Gpio_Init();
 }
 
-void Init_ESP32_Gpio()
+void ESP32_Gpio_Init()
 {
   for(uint8_t i=0; i<NUMBER_OF_ESP_GPIO; i++)
   {
@@ -112,7 +112,7 @@ void Init_ESP32_Gpio()
   }
 }
 
-void Init_MCP_Gpio()
+void MCP_Gpio_Init()
 {
   // Initialize MCP23017
   if (!mcp.begin_I2C(0x20)) // A0:0, A1:0, A2:0

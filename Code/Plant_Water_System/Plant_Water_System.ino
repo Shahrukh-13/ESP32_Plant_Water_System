@@ -1,5 +1,3 @@
-#include <Wire.h>
-#include <Adafruit_MCP23X17.h>
 #include "Define.h" 
 
 void setup() 
@@ -7,40 +5,23 @@ void setup()
   #ifdef SERIAL_DEBUG
     Serial.begin(115200);
   #endif
-  Init_IO();
+  IO_Init();
   App_Init();
   Water_Level_Sensor_Init();
   Timer_Init();
   Motor_Init();
+  LCD_Init();
 }
 
 void loop() 
 {
+  //LCD_Write(0, 0, "HELLO\n");
   App_Mode_Loop();
   Water_Level_Loop();
   Motor_Loop();
   Set_Leds();
+  LCD_Display_App_Stats();
 
-  /*EBS.Drain_Bottle_Full_Val = digitalRead(WaterLevel_DrainBottle_Full);
-  EBS.Refill_Bottle_Empty_Val = digitalRead(WaterLevel_RefillBottle_Empty);
-
-  if(EBS.Refill_Bottle_Empty_Val == 1)
-  {
-    Serial.print("Refill_Bottle: Empty ,");
-  }
-  else
-  {
-    Serial.print("Refill_Bottle: Not Empty ,");
-  }
-
-  if(EBS.Drain_Bottle_Full_Val == 0)
-  {
-    Serial.print("Drain_Bottle: Not Full ,");
-  }
-  else
-  {
-    Serial.print("Drain_Bottle: Full ,");
-  }*/
   #ifdef SERIAL_DEBUG
     /*Serial.print("Valve Open: ");
     Serial.print(AC.Valve_Is_Open);

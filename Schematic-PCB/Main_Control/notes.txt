@@ -1,0 +1,12 @@
+R5 pin 1 has to be connected to HEX8 (Made the fix on the PCB)
+
+J14 pinout is wrong (Right now reconnect the pins correctly in the wirring on the audio DAC side)
+
+Drain_Bottle_Full_Sensor needs to be configured as normally closed  (I made an external cable that configure the sensor as normall closed)
+
+ESP32 GPIO-12 is one of the boot stap pins. It needs to be low at startup. In futrue Move the Low_Level_Sensor to another pin or if you want to keep it on the same pin then configure the sensor to be normally closed at startup. (This is what I am doing rightnow, I made an external cable that configure the sensor as normall closed)
+
+Move Drain_Motor_Enable (GPIO-3) and Refill_Motor_Enable (GPIO-1) to some other pins or move them to MCP23017 becuase GPIO-3 and GPIO-1 are UART pins
+
+Drain_Motor_Enable and Refill_Motor_Enable FETS may need to be P-channel and enable on LOW logic
+
