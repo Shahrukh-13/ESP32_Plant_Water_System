@@ -24,12 +24,12 @@ struct gpio_config
 struct gpio_config ESP32_GPIO[]= {
   {WiFi_Status_LED,               GPIO_OUTPUT,  GPIO_NOPULL, 0},
   #ifndef SERIAL_DEBUG
-    {Refill_Motor_Enable,         GPIO_OUTPUT,  GPIO_NOPULL, 0},
+    {HeartBeat_LED,                 GPIO_OUTPUT,  GPIO_NOPULL, 0},
   #endif
-  {HeartBeat_LED,                 GPIO_OUTPUT,  GPIO_NOPULL, 0},
+  {Refill_Motor_Enable,           GPIO_OUTPUT,  GPIO_NOPULL, 0},
   #ifndef SERIAL_DEBUG
-    {Drain_Motor_Enable,          GPIO_OUTPUT,  GPIO_NOPULL, 0},
-  #endif
+    {Refill_Bottle_Empty_LED,       GPIO_OUTPUT,  GPIO_NOPULL, 0},
+  #endif 
   {DrainSensor_Bypass_LED,        GPIO_OUTPUT,  GPIO_NOPULL, 0},
   {Switch_TestMode,               GPIO_INPUT,   GPIO_NOPULL, 0},  //External Pulldown
   {WaterLevel_Tank_Low,           GPIO_INPUT,   GPIO_NOPULL, 1},  //External Pullup
@@ -40,7 +40,7 @@ struct gpio_config ESP32_GPIO[]= {
   {Switch_ExternalRefill,         GPIO_INPUT,   GPIO_NOPULL, 0},  //External Pulldown
   {Switch_LowLevel_Sensor_Bypass, GPIO_INPUT,   GPIO_NOPULL, 0},  //External Pulldown
   {Button_TestMode_ValveEnable,   GPIO_INPUT,   GPIO_NOPULL, 0},  //External Pulldown
-  {Refill_Bottle_Empty_LED,       GPIO_OUTPUT,  GPIO_NOPULL, 0}, 
+  {Drain_Motor_Enable,            GPIO_OUTPUT,  GPIO_NOPULL, 0},
   {WaterLevel_RefillBottle_Empty, GPIO_INPUT,   GPIO_NOPULL, 1},  //External Pullup
   {HEX_1,                         GPIO_INPUT,   GPIO_NOPULL, 0},  //External Pulldown
   {HEX_4,                         GPIO_INPUT,   GPIO_NOPULL, 0},  //External Pulldown

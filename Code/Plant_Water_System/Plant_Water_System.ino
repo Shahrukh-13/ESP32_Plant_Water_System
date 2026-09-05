@@ -22,27 +22,7 @@ void loop()
   Set_Leds();
   LCD_Display_App_Stats();
 
-  #ifdef SERIAL_DEBUG
-    /*Serial.print("Valve Open: ");
-    Serial.print(AC.Valve_Is_Open);
-    Serial.println();
-    Serial.print("Water Level: ");
-    Serial.print(WL.State);
-    Serial.println();
-    Serial.print("Drain Motor good to run: ");
-    Serial.print(MS[MOTOR_DRAIN].Motor_Good_To_Run);
-    Serial.println();
-    Serial.print("Refill Motor good to run: ");
-    Serial.print(MS[MOTOR_REFILL].Motor_Good_To_Run);
-    Serial.println();
-    Serial.print("Drain Motor state: ");
-    Serial.print(MS[MOTOR_DRAIN].State);
-    Serial.println();
-    Serial.print("Refill Motor state: ");
-    Serial.print(MS[MOTOR_REFILL].State);
-    Serial.println();*/
-    //Serial.println();
-  #endif
+   mcp.digitalWrite(Harp_LED_0, HIGH);
 }
 
 void App_Init()
