@@ -11,18 +11,17 @@ void setup()
   Timer_Init();
   Motor_Init();
   LCD_Init();
+  I2S_Audio_Init();
+  RTOS_Config();
 }
 
 void loop() 
 {
-  //LCD_Write(0, 0, "HELLO\n");
-  App_Mode_Loop();
+  /*App_Mode_Loop();
   Water_Level_Loop();
   Motor_Loop();
   Set_Leds();
-  LCD_Display_App_Stats();
-
-   mcp.digitalWrite(Harp_LED_0, HIGH);
+  LCD_Display_App_Stats();*/
 }
 
 void App_Init()
@@ -48,6 +47,10 @@ void App_Mode_Loop()
       if(AC.Test_Mode_Switch_Val == 0)
       {
         AC.State = APP_STATE_NORMAL;
+        if(AC.Test_Mode_Valve_Button_Val == 1)
+        {
+          Audio_Write();          
+        }
       }
       else
       {

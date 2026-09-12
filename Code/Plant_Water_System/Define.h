@@ -28,7 +28,13 @@
 #define HEX_2                           35
 #define Switch_ExternalDrain            36
 #define HEX_8                           39
-    
+
+//ESP32 I2S Audio
+#define Audio_BCK                       26
+#define Audio_WS                        25
+#define Audio_Data_Out                  33
+
+
 
 //MCP A
 #define Harp_LED_0                      0

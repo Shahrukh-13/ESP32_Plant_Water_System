@@ -51,6 +51,7 @@ struct gpio_config ESP32_GPIO[]= {
 
 #define NUMBER_OF_ESP_GPIO  (sizeof(ESP32_GPIO))/(sizeof(ESP32_GPIO[0]))
 
+
 struct gpio_config MCP_GPIO[]= {
   //MCP PORT A
   {Harp_LED_0,                    GPIO_OUTPUT,  GPIO_NOPULL, 0},
@@ -74,6 +75,7 @@ struct gpio_config MCP_GPIO[]= {
 };
 
 #define NUMBER_OF_MCP_GPIO  (sizeof(MCP_GPIO))/(sizeof(MCP_GPIO[0]))
+
 
 void IO_Init()
 {

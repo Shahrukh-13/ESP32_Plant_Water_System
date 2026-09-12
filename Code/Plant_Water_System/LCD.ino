@@ -59,6 +59,7 @@ void LCD_Display_App_Stats()
 {
   char buffer[150];
   LCD__Clear();
+  
   /*Standard sprintf() can easily crash your board if the formatted text exceeds the size of your allocated char array (a buffer overflow). 
   Using snprintf() limits the characters written, ensuring it never goes out of bounds*/
   snprintf(buffer, sizeof(buffer), "App Mode: %s\n" 
