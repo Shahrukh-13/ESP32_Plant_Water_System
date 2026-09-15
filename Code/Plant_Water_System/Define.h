@@ -1,10 +1,15 @@
 #ifndef DEFINE_H
 #define DEFINE_H
 
+#include "WiFi.h"
+#include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
 #include <Wire.h>
 #include <Adafruit_MCP23X17.h>
+#include <EEPROM.h>
+#include "time.h"
 
-//#define SERIAL_DEBUG
+#define SERIAL_DEBUG
 
 //ESP32 Digital IO
 #define WiFi_Status_LED                 0
@@ -57,6 +62,7 @@
 
 
 Adafruit_MCP23X17 mcp;
+AsyncWebServer server(80);
 
 /******Typedefs****************************************/
 typedef enum
@@ -119,6 +125,47 @@ struct app_config
   bool Valve_Is_Open;
 };
 
+struct wifi_config
+{
+  uint8_t wifi_connection_timeout_count;
+  uint8_t PowerCycle_Count;
+  bool wifi_flag;
+  String ssid_i;
+  String password_i;
+  String inputMessage; 
+  char ssid[50];
+  char password[50];
+  String input;
+};
+
+struct ntp_time
+{
+  long  gmtOffset_sec;
+  int   daylightOffset_sec;
+  String      Date;
+  String      Year;
+  String      Time;
+  char        chDayOfMonth[3];                                    // Day of month (0 through 31).
+  char        chDayofWeek[4];                                     // Day of week (Sunday through Saturday).
+  char        chHour[3];                                          // Hour.
+  char        chMinute[3];                                        // Minute.
+  char        chMonth[4];                                         // Month.
+  char* ntpServer;
+  char        chSecond[3];                                        // Second.
+  char        chYear[5];                                          // Year.
+  char        AM_PM[3];                                           // AM/PM.
+};
+
+struct webserver_info
+{
+  String html;
+  char index_html[1000]; 
+  String Plant1_Time;
+  String Plant2_Time;
+  String Plant3_Time;
+  String Plant4_Time;
+  String Plant5_Time;
+};
 /****************************************************/
 
 /*****Varriables*************************************/
@@ -126,6 +173,9 @@ struct water_level WL;
 struct external_bottle_sensor EBS;
 struct app_config AC;
 struct motor_status MS[MOTOR_MAX];
+struct wifi_config WC;
+struct ntp_time NTP;
+struct webserver_info WS;
 /****************************************************/
 
 #endif // DEFINE_H

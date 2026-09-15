@@ -3,7 +3,7 @@
 TaskHandle_t Task1;
 TaskHandle_t Task2;
 
-void RTOS_Config()
+void RTOS_Init()
 {
   //create a task that will be executed in the Task1code() function, with priority 1 and executed on core 0
   xTaskCreatePinnedToCore(
@@ -36,7 +36,9 @@ void Task1code( void * pvParameters )
     Water_Level_Loop();
     Motor_Loop();
     Set_Leds();
+    GetLocalTime();
     LCD_Display_App_Stats();
+    //GetLocalTime();
   }
 }
 

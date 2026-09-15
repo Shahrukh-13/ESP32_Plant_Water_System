@@ -199,6 +199,16 @@ void Set_Leds()
   {
     digitalWrite(Refill_Bottle_Empty_LED, HIGH);
   }
+
+  //WiFi Status LED
+  if(WiFi.status() != WL_CONNECTED)
+  {
+    digitalWrite(WiFi_Status_LED, LOW);
+  }
+  else
+  {
+    digitalWrite(WiFi_Status_LED, HIGH);
+  }
 }
 
 void Hex_Encoder_Get()

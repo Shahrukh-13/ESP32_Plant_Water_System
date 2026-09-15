@@ -1,3 +1,4 @@
+#include "Define.h" 
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
@@ -62,21 +63,50 @@ void LCD_Display_App_Stats()
   
   /*Standard sprintf() can easily crash your board if the formatted text exceeds the size of your allocated char array (a buffer overflow). 
   Using snprintf() limits the characters written, ensuring it never goes out of bounds*/
-  snprintf(buffer, sizeof(buffer), "App Mode: %s\n" 
-                                   "Water Level: %s\n"
-                                   "Valve Open: %s\n"
-                                   "Valve ID: %s\n"
-                                   "Drain Switch: %d\n"
-                                   "Refill Switch: %d\n"
-                                   "Drain Motor good: %d\n"
-                                   "Refill Motor good: %d",
-                                   (AC.Test_Mode_Switch_Val == 0) ? "Normal" : "Test",
-                                   (WL.State == WATER_LEVEL_LOW) ? "Low" : (WL.State == WATER_LEVEL_NOT_FULL) ? "Not Full" : "Full",
-                                   (AC.Valve_Is_Open == false) ? "No" : "Yes",
-                                   (AC.Hex_Encoder_Val >5) ? "None" : String(AC.Hex_Encoder_Val).c_str(),
-                                   MS[MOTOR_DRAIN].Motor_Switch_val,
-                                   MS[MOTOR_REFILL].Motor_Switch_val,
-                                   MS[MOTOR_DRAIN].Motor_Good_To_Run,
-                                   MS[MOTOR_REFILL].Motor_Good_To_Run);
+  if(AC.State == APP_STATE_NORMAL)
+  {
+    snprintf(buffer, sizeof(buffer), "IP: %s\n"
+                                     "%s\n"
+                                     "App Mode: %s\n" 
+                                     "Water Level: %s\n"
+                                     "Valve Open: %s\n"
+                                     "Valve ID: %s\n"
+                                     "Drain Motor good: %d\n"
+                                     "Refill Motor good: %d",
+                                     WiFi.localIP().toString(),
+                                     NTP.Time.c_str(),
+                                     (AC.Test_Mode_Switch_Val == 0) ? "Normal" : "Test",
+                                     (WL.State == WATER_LEVEL_LOW) ? "Low" : (WL.State == WATER_LEVEL_NOT_FULL) ? "Not Full" : "Full",
+                                     (AC.Valve_Is_Open == false) ? "No" : "Yes",
+                                     (AC.Hex_Encoder_Val >5) ? "None" : String(AC.Hex_Encoder_Val).c_str(),
+                                     MS[MOTOR_DRAIN].Motor_Good_To_Run,
+                                     MS[MOTOR_REFILL].Motor_Good_To_Run);                               
+  }
+  
+  else if(AC.State == APP_STATE_TEST)
+  {
+    snprintf(buffer, sizeof(buffer), "App Mode: %s\n" 
+                                     "Water Level: %s\n"
+                                     "Valve Open: %s\n"
+                                     "Valve ID: %s\n"
+                                     "Drain Switch: %d\n"
+                                     "Refill Switch: %d\n"
+                                     "Drain Motor good: %d\n"
+                                     "Refill Motor good: %d",
+                                     (AC.Test_Mode_Switch_Val == 0) ? "Normal" : "Test",
+                                     (WL.State == WATER_LEVEL_LOW) ? "Low" : (WL.State == WATER_LEVEL_NOT_FULL) ? "Not Full" : "Full",
+                                     (AC.Valve_Is_Open == false) ? "No" : "Yes",
+                                     (AC.Hex_Encoder_Val >5) ? "None" : String(AC.Hex_Encoder_Val).c_str(),
+                                     MS[MOTOR_DRAIN].Motor_Switch_val,
+                                     MS[MOTOR_REFILL].Motor_Switch_val,
+                                     MS[MOTOR_DRAIN].Motor_Good_To_Run,
+                                     MS[MOTOR_REFILL].Motor_Good_To_Run);
+  }
+  
+  else
+  {
+    /*Do Nothing*/
+  }
+  
   LCD_Write(0, 0, String(buffer));
 }

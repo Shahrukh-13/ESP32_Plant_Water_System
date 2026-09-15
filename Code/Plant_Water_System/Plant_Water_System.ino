@@ -1,10 +1,13 @@
 #include "Define.h" 
 
+void Config_NTP_Time();
+
 void setup() 
 {
   #ifdef SERIAL_DEBUG
     Serial.begin(115200);
   #endif
+  EEPROM.begin(512);
   IO_Init();
   App_Init();
   Water_Level_Sensor_Init();
@@ -12,7 +15,9 @@ void setup()
   Motor_Init();
   LCD_Init();
   I2S_Audio_Init();
-  RTOS_Config();
+  RTOS_Init();
+  NTP_Time_Init();
+  WiFi_Init();
 }
 
 void loop() 
