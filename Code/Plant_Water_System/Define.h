@@ -159,7 +159,9 @@ struct ntp_time
 struct webserver_info
 {
   String html;
-  char index_html[1000]; 
+  char index_html[1500];
+  String New_WiFi_SSID;
+  String New_WiFi_Password; 
   String Plant1_Time;
   String Plant2_Time;
   String Plant3_Time;

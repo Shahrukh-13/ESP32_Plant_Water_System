@@ -1,2 +1,9 @@
-#include <Wire.h>
-#include <driver/i2s.h>
+#include <Wire.h>		//builtin
+#include <driver/i2s.h>		//builtin
+#include "WiFi.h"		//builtin
+#include <Wire.h>  		//builtin
+#include <EEPROM.h>		//builtin
+#include "time.h"		//builtin
+#include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
+#include <Adafruit_MCP23X17.h>

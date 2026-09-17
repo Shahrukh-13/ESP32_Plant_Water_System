@@ -21,40 +21,23 @@ void GetLocalTime()
   if(!getLocalTime(&timeinfo))
   {
     Serial.println("Failed to obtain date and time");
-    NTP.Date = "Failed to obtain date";
     NTP.Time = "Failed to obtain time";
-    //ESP.restart();
+    ESP.restart();
   }
-  //Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
-  
-  //Serial.println(timeinfo.tm_mday);
-  /*tm_sec: seconds after the minute;
-  tm_min: minutes after the hour;
-  tm_hour: hours since midnight;
-  tm_mday: day of the month;
-  tm_year: years since 1900;
-  tm_wday: days since Sunday;
-  tm_yday: days since January 1;
-  tm_isdst: Daylight Saving Time flag;*/ 
 
-  //time (&rawtime);
-  //Date_Time = asctime(localtime (&rawtime));
-
+  // Obtain Time Hr:Min:Sec
   strftime(NTP.chHour, sizeof(NTP.chHour), "%I", & timeinfo);
   strftime(NTP.chMinute, sizeof(NTP.chMinute), "%M", & timeinfo);
   strftime(NTP.chSecond, sizeof(NTP.chSecond), "%S", & timeinfo);
   
-  // Then obtain day of week, day of month, month and year.
-    
+  // Then obtain day of week, AM/PM.
   strftime(NTP.chDayofWeek, sizeof(NTP.chDayofWeek), "%A", & timeinfo);
-  strftime(NTP.chDayOfMonth, sizeof(NTP.chDayOfMonth), "%d", & timeinfo);
-  strftime(NTP.chMonth, sizeof(NTP.chMonth), "%B", & timeinfo);
-  strftime(NTP.chYear, sizeof(NTP.chYear), "%Y", & timeinfo);
   strftime(NTP.AM_PM, sizeof(NTP.AM_PM), "%p", & timeinfo);
- 
+
+ // Build Time String
   sprintf(chBuffer, "%s:%s:%s:%s:%s", String(NTP.chDayofWeek), String(NTP.chHour), String(NTP.chMinute), String(NTP.chSecond), String(NTP.AM_PM));
   NTP.Time = String(chBuffer);
   #ifdef SERIAL_DEBUG
-   Serial.println(NTP.Time);
+   //Serial.println(NTP.Time);
   #endif
 }
