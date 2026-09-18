@@ -179,6 +179,8 @@ struct webserver_info
 {
   String html;
   char index_html[2500];
+  String Saved_WiFi_SSID;
+  String Saved_WiFi_Password; 
   String New_WiFi_SSID;
   String New_WiFi_Password; 
   String Plant1_Time;

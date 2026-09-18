@@ -91,16 +91,22 @@ void Get_WebPage()
     {
       WS.New_WiFi_SSID = request->getParam(PARAM_INPUT_1)->value();
       WS.New_WiFi_Password = request->getParam(PARAM_INPUT_2)->value();
-      #ifdef SERIAL_DEBUG
-        Serial.println(WS.New_WiFi_SSID);
-      #endif
-      WriteString_EEPROM(EEPROM_SSID_ADDRESS,WS.New_WiFi_SSID);
-
-      #ifdef SERIAL_DEBUG
-        Serial.println(WS.New_WiFi_Password);
-      #endif
-      WriteString_EEPROM(EEPROM_PASSWORD_ADDRESS,WS.New_WiFi_Password);
-      
+      if(WS.New_WiFi_SSID != WS.Saved_WiFi_SSID)
+      {
+        #ifdef SERIAL_DEBUG
+          Serial.println(WS.New_WiFi_SSID);
+        #endif
+        WS.Saved_WiFi_SSID = WS.New_WiFi_SSID;
+        WriteString_EEPROM(EEPROM_SSID_ADDRESS,WS.New_WiFi_SSID);
+      }
+      if(WS.New_WiFi_Password != WS.Saved_WiFi_Password)
+      {
+        #ifdef SERIAL_DEBUG
+          Serial.println(WS.New_WiFi_Password);
+        #endif
+        WS.Saved_WiFi_Password = WS.New_WiFi_Password;
+        WriteString_EEPROM(EEPROM_PASSWORD_ADDRESS,WS.New_WiFi_Password);
+      }
       Update_WebPage();
     }
         

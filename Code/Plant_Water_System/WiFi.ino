@@ -8,6 +8,9 @@ void WiFi_Init()
   WC.ssid_i = Read_String_EEPROM(EEPROM_SSID_ADDRESS);
   WC.password_i = Read_String_EEPROM(EEPROM_PASSWORD_ADDRESS);
 
+  WS.Saved_WiFi_SSID = WC.ssid_i;
+  WS.Saved_WiFi_Password = WC.password_i;
+  
   #ifdef SERIAL_DEBUG
     //Serial.println(WC.ssid_i);
     //Serial.println(WC.password_i);
