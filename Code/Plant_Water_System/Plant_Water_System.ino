@@ -53,10 +53,8 @@ void App_Mode_Loop()
   switch(AC.State)
   {
     case APP_STATE_NORMAL:
-    case APP_STATE_TEST:
       if(AC.Test_Mode_Switch_Val == 0)
       {
-        AC.State = APP_STATE_NORMAL;
         if(NTP.Time == WS.Plant1_Time && VE == 0)
         {
           VE = 1;
@@ -78,8 +76,16 @@ void App_Mode_Loop()
         {
           Audio_Write();          
         }
+        AC.State = APP_STATE_NORMAL;
       }
       else
+      {
+        AC.State = APP_STATE_TEST;
+      }
+    break;
+    case APP_STATE_TEST:
+      
+      if(AC.Test_Mode_Switch_Val == 1)
       {
         Hex_Encoder_Get();
         if(AC.Test_Mode_Valve_Button_Val == 1)
@@ -91,6 +97,10 @@ void App_Mode_Loop()
           All_Valves_OFF();
         }
         AC.State = APP_STATE_TEST;
+      }
+      else
+      {
+        AC.State = APP_STATE_NORMAL;
       }
     break;
 
