@@ -46,6 +46,7 @@ void App_Init()
 
 void App_Mode_Loop()
 {
+  static bool VE = 0;
   AC.Test_Mode_Switch_Val = digitalRead(Switch_TestMode);
   AC.Test_Mode_Valve_Button_Val = digitalRead(Button_TestMode_ValveEnable);
   
@@ -56,6 +57,23 @@ void App_Mode_Loop()
       if(AC.Test_Mode_Switch_Val == 0)
       {
         AC.State = APP_STATE_NORMAL;
+        if(NTP.Time == WS.Plant1_Time && VE == 0)
+        {
+          VE = 1;
+          AC.Valve_Status_PreviousMillis = AC.CurrentMillis;
+          #ifdef SERIAL_DEBUG
+            Serial.println("Valve1 enabled");
+            Serial.println(AC.Valve_Status_PreviousMillis);
+          #endif
+        }
+        if (VE == 1 && (AC.CurrentMillis - AC.Valve_Status_PreviousMillis >= WS.Plant1_Valve_Open_Sec))
+        { 
+          VE = 0;
+          #ifdef SERIAL_DEBUG
+            Serial.println("Valve1 disabled");
+            Serial.println(AC.CurrentMillis);
+          #endif
+        }
         if(AC.Test_Mode_Valve_Button_Val == 1)
         {
           Audio_Write();          

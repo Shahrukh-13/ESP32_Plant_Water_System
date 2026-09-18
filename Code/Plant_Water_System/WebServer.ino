@@ -93,16 +93,14 @@ void Get_WebPage()
       WS.New_WiFi_Password = request->getParam(PARAM_INPUT_2)->value();
       #ifdef SERIAL_DEBUG
         Serial.println(WS.New_WiFi_SSID);
+      #endif
+      WriteString_EEPROM(EEPROM_SSID_ADDRESS,WS.New_WiFi_SSID);
+
+      #ifdef SERIAL_DEBUG
         Serial.println(WS.New_WiFi_Password);
       #endif
-      if(WS.New_WiFi_SSID != WC.ssid_i)
-      {
-        WriteString_EEPROM(EEPROM_SSID_ADDRESS,WS.New_WiFi_SSID);
-      }
-      if(WS.New_WiFi_Password != WC.password_i)
-      {
-        WriteString_EEPROM(EEPROM_PASSWORD_ADDRESS,WS.New_WiFi_Password);
-      }
+      WriteString_EEPROM(EEPROM_PASSWORD_ADDRESS,WS.New_WiFi_Password);
+      
       Update_WebPage();
     }
         
@@ -110,7 +108,7 @@ void Get_WebPage()
     else if (request->hasParam(PARAM_INPUT_3) && request->hasParam(PARAM_INPUT_4)) 
     {
       WS.Plant1_Time = request->getParam(PARAM_INPUT_3)->value();
-      WS.Plant1_Valve_Open_Sec = request->getParam(PARAM_INPUT_4)->value().toInt();
+      WS.Plant1_Valve_Open_Sec = request->getParam(PARAM_INPUT_4)->value().toInt() * 1000;
       #ifdef SERIAL_DEBUG
         Serial.println(WS.Plant1_Time);
         Serial.println(WS.Plant1_Valve_Open_Sec);
@@ -119,9 +117,9 @@ void Get_WebPage()
     }
     
     // GET input4 value on <ESP_IP>/get?input4=<inputMessage>
-    else if (request->hasParam(PARAM_INPUT_4)) 
+    else if (request->hasParam(PARAM_INPUT_5)) 
     {
-      WS.Plant2_Time = request->getParam(PARAM_INPUT_4)->value();
+      WS.Plant2_Time = request->getParam(PARAM_INPUT_5)->value();
       #ifdef SERIAL_DEBUG
         Serial.println(WS.Plant2_Time);
       #endif
@@ -129,9 +127,9 @@ void Get_WebPage()
     }
     
     // GET input5 value on <ESP_IP>/get?input5=<inputMessage>
-    else if (request->hasParam(PARAM_INPUT_5)) 
+    else if (request->hasParam(PARAM_INPUT_6)) 
     {
-      WS.Plant3_Time = request->getParam(PARAM_INPUT_5)->value();
+      WS.Plant3_Time = request->getParam(PARAM_INPUT_6)->value();
       #ifdef SERIAL_DEBUG
         Serial.println(WS.Plant3_Time);
       #endif
@@ -139,9 +137,9 @@ void Get_WebPage()
     }
     
     // GET input6 value on <ESP_IP>/get?input6=<inputMessage>
-    else if (request->hasParam(PARAM_INPUT_6)) 
+    else if (request->hasParam(PARAM_INPUT_7)) 
     {
-      WS.Plant4_Time = request->getParam(PARAM_INPUT_6)->value();
+      WS.Plant4_Time = request->getParam(PARAM_INPUT_7)->value();
       #ifdef SERIAL_DEBUG
         Serial.println(WS.Plant4_Time);
       #endif
@@ -149,9 +147,9 @@ void Get_WebPage()
     }
     
     // GET input7 value on <ESP_IP>/get?input7=<inputMessage>
-    else if (request->hasParam(PARAM_INPUT_7)) 
+    else if (request->hasParam(PARAM_INPUT_8)) 
     {
-      WS.Plant5_Time = request->getParam(PARAM_INPUT_7)->value();
+      WS.Plant5_Time = request->getParam(PARAM_INPUT_8)->value();
       #ifdef SERIAL_DEBUG
         Serial.println(WS.Plant5_Time);
       #endif

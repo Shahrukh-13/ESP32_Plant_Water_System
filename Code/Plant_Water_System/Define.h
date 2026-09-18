@@ -141,6 +141,7 @@ struct app_config
   unsigned long CurrentMillis;
   unsigned long WiFi_Status_PreviousMillis;
   unsigned long WiFi_Reconnect_Interval;
+  unsigned long Valve_Status_PreviousMillis;
 };
 
 struct wifi_config
@@ -177,7 +178,7 @@ struct ntp_time
 struct webserver_info
 {
   String html;
-  char index_html[1500];
+  char index_html[2500];
   String New_WiFi_SSID;
   String New_WiFi_Password; 
   String Plant1_Time;
@@ -185,11 +186,11 @@ struct webserver_info
   String Plant3_Time;
   String Plant4_Time;
   String Plant5_Time;
-  uint8_t Plant1_Valve_Open_Sec;
-  uint8_t Plant2_Valve_Open_Sec;
-  uint8_t Plant3_Valve_Open_Sec;
-  uint8_t Plant4_Valve_Open_Sec;
-  uint8_t Plant5_Valve_Open_Sec;
+  uint16_t Plant1_Valve_Open_Sec;
+  uint16_t Plant2_Valve_Open_Sec;
+  uint16_t Plant3_Valve_Open_Sec;
+  uint16_t Plant4_Valve_Open_Sec;
+  uint16_t Plant5_Valve_Open_Sec;
 };
 /****************************************************/
 
