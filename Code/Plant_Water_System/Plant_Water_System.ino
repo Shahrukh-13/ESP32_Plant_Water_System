@@ -7,7 +7,7 @@ void setup()
   #ifdef SERIAL_DEBUG
     Serial.begin(115200);
   #endif
-  EEPROM.begin(512);
+  EEPROM_Init();
   IO_Init();
   App_Init();
   Water_Level_Sensor_Init();
@@ -38,6 +38,10 @@ void App_Init()
   AC.Hex_Encoder_Val = 0;
   AC.Test_Mode_Valve_Button_Val = 0;
   AC.Valve_Is_Open = false;
+
+  AC.CurrentMillis = 0;
+  AC.WiFi_Status_PreviousMillis = 0;
+  AC.WiFi_Reconnect_Interval = 30000; // check every 30 seconds
 }
 
 void App_Mode_Loop()

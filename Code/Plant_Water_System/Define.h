@@ -61,6 +61,21 @@
 #define NU_1                            15
 
 
+//EEPROM
+#define EEPROM_SSID_ADDRESS                   0   
+#define EEPROM_PASSWORD_ADDRESS               50  
+#define EEPROM_PLANT1_TIME_ADDRESS            100
+#define EEPROM_PLANT2_TIME_ADDRESS            150
+#define EEPROM_PLANT3_TIME_ADDRESS            200
+#define EEPROM_PLANT4_TIME_ADDRESS            250
+#define EEPROM_PLANT5_TIME_ADDRESS            300
+#define EEPROM_POWERCYCLE_COUNT_ADDRESS       301
+#define EEPROM_PLANT1_VALVE_OPEN_SEC          302
+#define EEPROM_PLANT2_VALVE_OPEN_SEC          303
+#define EEPROM_PLANT3_VALVE_OPEN_SEC          304
+#define EEPROM_PLANT4_VALVE_OPEN_SEC          305
+#define EEPROM_PLANT5_VALVE_OPEN_SEC          306
+
 Adafruit_MCP23X17 mcp;
 AsyncWebServer server(80);
 
@@ -123,6 +138,9 @@ struct app_config
   uint8_t Hex_Encoder_Val;
   bool Test_Mode_Valve_Button_Val;
   bool Valve_Is_Open;
+  unsigned long CurrentMillis;
+  unsigned long WiFi_Status_PreviousMillis;
+  unsigned long WiFi_Reconnect_Interval;
 };
 
 struct wifi_config
@@ -167,6 +185,11 @@ struct webserver_info
   String Plant3_Time;
   String Plant4_Time;
   String Plant5_Time;
+  uint8_t Plant1_Valve_Open_Sec;
+  uint8_t Plant2_Valve_Open_Sec;
+  uint8_t Plant3_Valve_Open_Sec;
+  uint8_t Plant4_Valve_Open_Sec;
+  uint8_t Plant5_Valve_Open_Sec;
 };
 /****************************************************/
 
@@ -178,6 +201,9 @@ struct motor_status MS[MOTOR_MAX];
 struct wifi_config WC;
 struct ntp_time NTP;
 struct webserver_info WS;
-/****************************************************/
 
+
+String Default_WiFi_SSID = "Shahrukh13";
+String Default_WiFi_Password = "shahan-2020";
+/****************************************************/
 #endif // DEFINE_H

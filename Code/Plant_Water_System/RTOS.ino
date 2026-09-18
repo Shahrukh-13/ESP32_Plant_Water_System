@@ -32,13 +32,20 @@ void RTOS_Init()
 void Task1code( void * pvParameters )
 {
   for(;;){
+    AC.CurrentMillis = millis();
     App_Mode_Loop();
     Water_Level_Loop();
     Motor_Loop();
     Set_Leds();
     GetLocalTime();
     LCD_Display_App_Stats();
-    //GetLocalTime();
+    
+    // if WiFi is down, try reconnecting
+    if ((WiFi.status() != WL_CONNECTED) && (AC.CurrentMillis - AC.WiFi_Status_PreviousMillis >= AC.WiFi_Reconnect_Interval)) 
+    {
+      WiFi_Reconnect();
+      AC.WiFi_Status_PreviousMillis = AC.CurrentMillis;
+    }
   }
 }
 
