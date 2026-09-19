@@ -75,6 +75,7 @@
 #define EEPROM_PLANT3_VALVE_OPEN_SEC          304
 #define EEPROM_PLANT4_VALVE_OPEN_SEC          305
 #define EEPROM_PLANT5_VALVE_OPEN_SEC          306
+//#define EEPROM_AUDIO_MUTE_MIN                 307
 
 Adafruit_MCP23X17 mcp;
 AsyncWebServer server(80);
@@ -148,6 +149,7 @@ struct app_config
   bool Test_Mode_Switch_Val;
   bool HeartBeat_Toggle;
   bool Do_Harp_LED;
+  bool Mute_Audio;
   uint8_t Hex_Encoder_Val;
   bool Test_Mode_Valve_Button_Val;
   bool Valve_Is_Open;
@@ -156,6 +158,8 @@ struct app_config
   unsigned long WiFi_Status_PreviousMillis;
   unsigned long WiFi_Reconnect_Interval;
   unsigned long Valve_Status_PreviousMillis;
+  unsigned long Audio_Mute_Min;
+  unsigned long Audio_Mute_Status_PreviousMillis;
 };
 
 struct wifi_config
@@ -207,6 +211,7 @@ struct webserver_info
   uint16_t Plant3_Valve_Open_Sec;
   uint16_t Plant4_Valve_Open_Sec;
   uint16_t Plant5_Valve_Open_Sec;
+  //uint32_t Audio_Mute_Min;
 };
 
 struct time_valve_config

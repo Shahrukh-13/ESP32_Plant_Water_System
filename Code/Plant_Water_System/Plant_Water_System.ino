@@ -34,12 +34,16 @@ void App_Init()
   AC.Test_Mode_Valve_Button_Val = 0;
   AC.Valve_Is_Open = false;
 
+  AC.Do_Harp_LED = false;
+  AC.Mute_Audio = false;
+  AC.Which_Valve_Enabled = VALVE_NONE;
+  
   AC.CurrentMillis = 0;
   AC.WiFi_Status_PreviousMillis = 0;
-  AC.WiFi_Reconnect_Interval = 30000; // check every 30 seconds
+  AC.Audio_Mute_Status_PreviousMillis = 0;
 
-  AC.Do_Harp_LED = false;
-  AC.Which_Valve_Enabled = VALVE_NONE;
+  AC.Audio_Mute_Min = 15;
+  AC.WiFi_Reconnect_Interval = 30000; // check every 30 seconds
 }
 
 void App_Mode_Loop()
@@ -59,10 +63,15 @@ void App_Mode_Loop()
           {
             Valve_Select(TIME_VALVE_CFG[i].Valve_ID);
             AC.Which_Valve_Enabled = TIME_VALVE_CFG[i].Valve_ID;
-            AC.Do_Harp_LED = true;
-            Audio_Write();
-            AC.Do_Harp_LED = false;
+            if(AC.Mute_Audio == false)
+            {
+              AC.Do_Harp_LED = true;
+              Audio_Write();
+              AC.Do_Harp_LED = false;
+            }
+            AC.Mute_Audio = true;
             AC.Valve_Status_PreviousMillis = AC.CurrentMillis;
+            AC.Audio_Mute_Status_PreviousMillis = AC.CurrentMillis;
             #ifdef SERIAL_DEBUG
               Serial.print("Valve");
               Serial.print(TIME_VALVE_CFG[i].Valve_ID);
@@ -72,18 +81,7 @@ void App_Mode_Loop()
             #endif
           }
         }
-        /*if(NTP.Time == WS.Plant1_Time && AC.Valve_Is_Open == false)
-        {
-          Valve_Select(VALVE1);
-          AC.Do_Harp_LED = true;
-          Audio_Write();
-          AC.Do_Harp_LED = false;
-          AC.Valve_Status_PreviousMillis = AC.CurrentMillis;
-          #ifdef SERIAL_DEBUG
-            Serial.println("Valve1 enabled");
-            Serial.println(AC.Valve_Status_PreviousMillis);
-          #endif
-        }*/
+        
         for(uint8_t i=1 ; i<=VALVE5 ; i++)
         {
           if (AC.Valve_Is_Open == true && (i == AC.Which_Valve_Enabled) && (AC.CurrentMillis - AC.Valve_Status_PreviousMillis >= (TIME_VALVE_CFG[i].Valve_Open_Sec * 1000)))
@@ -98,18 +96,11 @@ void App_Mode_Loop()
             #endif
           }
         }
-        /*if (AC.Valve_Is_Open == true && (AC.CurrentMillis - AC.Valve_Status_PreviousMillis >= (WS.Plant1_Valve_Open_Sec * 1000)))
-        { 
-          All_Valves_OFF();
-          #ifdef SERIAL_DEBUG
-            Serial.println("Valve1 disabled");
-            Serial.println(AC.CurrentMillis);
-          #endif
-        }*/
-        /*if(AC.Test_Mode_Valve_Button_Val == 1)
+
+        if(AC.Mute_Audio == true && (AC.CurrentMillis - AC.Audio_Mute_Status_PreviousMillis >= (AC.Audio_Mute_Min * 60 * 1000)))
         {
-          Audio_Write();          
-        }*/
+          AC.Mute_Audio = false;
+        }
         AC.State = APP_STATE_NORMAL;
       }
       else
