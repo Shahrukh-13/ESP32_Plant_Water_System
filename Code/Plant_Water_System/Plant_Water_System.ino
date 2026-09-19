@@ -1,7 +1,5 @@
 #include "Define.h" 
 
-void Config_NTP_Time();
-
 void setup() 
 {
   #ifdef SERIAL_DEBUG
@@ -22,11 +20,7 @@ void setup()
 
 void loop() 
 {
-  /*App_Mode_Loop();
-  Water_Level_Loop();
-  Motor_Loop();
-  Set_Leds();
-  LCD_Display_App_Stats();*/
+ 
 }
 
 void App_Init()
@@ -42,6 +36,8 @@ void App_Init()
   AC.CurrentMillis = 0;
   AC.WiFi_Status_PreviousMillis = 0;
   AC.WiFi_Reconnect_Interval = 30000; // check every 30 seconds
+
+  AC.Do_Harp_LED = false;
 }
 
 void App_Mode_Loop()
@@ -58,6 +54,9 @@ void App_Mode_Loop()
         if(NTP.Time == WS.Plant1_Time && VE == 0)
         {
           VE = 1;
+          AC.Do_Harp_LED = true;
+          Audio_Write();
+          AC.Do_Harp_LED = false;
           AC.Valve_Status_PreviousMillis = AC.CurrentMillis;
           #ifdef SERIAL_DEBUG
             Serial.println("Valve1 enabled");
@@ -74,7 +73,7 @@ void App_Mode_Loop()
         }
         if(AC.Test_Mode_Valve_Button_Val == 1)
         {
-          Audio_Write();          
+          //Audio_Write();          
         }
         AC.State = APP_STATE_NORMAL;
       }

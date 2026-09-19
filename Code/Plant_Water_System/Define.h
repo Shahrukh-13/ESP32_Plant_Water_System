@@ -135,6 +135,7 @@ struct app_config
   bool LowLevel_Sensor_Bypass_Val;
   bool Test_Mode_Switch_Val;
   bool HeartBeat_Toggle;
+  bool Do_Harp_LED;
   uint8_t Hex_Encoder_Val;
   bool Test_Mode_Valve_Button_Val;
   bool Valve_Is_Open;

@@ -43,6 +43,9 @@ void Task1code( void * pvParameters )
     // if WiFi is down, try reconnecting
     if ((WiFi.status() != WL_CONNECTED) && (AC.CurrentMillis - AC.WiFi_Status_PreviousMillis >= AC.WiFi_Reconnect_Interval)) 
     {
+      #ifdef SERIAL_DEBUG
+        Serial.println("try reconnecting to WiFi");
+      #endif
       WiFi_Reconnect();
       AC.WiFi_Status_PreviousMillis = AC.CurrentMillis;
     }
@@ -53,11 +56,17 @@ void Task1code( void * pvParameters )
 void Task2code( void * pvParameters )
 {
   for(;;){
-    AC.Test_Mode_Valve_Button_Val = digitalRead(Button_TestMode_ValveEnable);
+    //AC.Test_Mode_Valve_Button_Val = digitalRead(Button_TestMode_ValveEnable);
     delay(500);
-    if(AC.Test_Mode_Valve_Button_Val == 1)
+    //if(AC.Test_Mode_Valve_Button_Val == 1)
+    if(AC.Do_Harp_LED == true)
     {
+      pinMode(WiFi_Status_LED, OUTPUT);
+      All_ESP32_LEDs_OFF();
       Do_Harp_LED();
     }
+
+    //Coming out of the task this pin congiguraion was getting reset, so I am reconfiguring it to OUTPUT here
+    pinMode(WiFi_Status_LED, OUTPUT);
   }
 }

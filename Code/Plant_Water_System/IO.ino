@@ -211,6 +211,16 @@ void Set_Leds()
   }
 }
 
+void All_ESP32_LEDs_OFF()
+{
+  digitalWrite(TestMode_LED, LOW);
+  digitalWrite(DrainSensor_Bypass_LED, LOW);
+  digitalWrite(Drain_Bottle_Full_LED, LOW);
+  digitalWrite(Refill_Bottle_Empty_LED, LOW);
+  digitalWrite(WiFi_Status_LED, LOW);
+  digitalWrite(HeartBeat_LED, LOW); 
+}
+
 void Hex_Encoder_Get()
 {
   bool Hex_1_Val = digitalRead(HEX_1);

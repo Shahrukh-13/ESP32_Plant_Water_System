@@ -25,8 +25,14 @@ void Update_WebPage()
   // Heading: print connected network SSID
   WS.html+= "<h2>";
   WS.html+= "Connected to SSID: " + WC.ssid_i;
-  WS.html+= "<br>"; //new line in heading
+  WS.html+= "<br><br>"; //new line in heading
   WS.html+= "</h2>";
+
+  // Heading: print connected network SSID
+  WS.html+= "<h3>";
+  WS.html+= "Saved SSID: " + WS.Saved_WiFi_SSID;
+  WS.html+= "<br>"; //new line in heading
+  WS.html+= "</h3>";
   
   // Input field for New WiFi SSID
   WS.html+= "<form action=\"/get\">";
@@ -148,6 +154,7 @@ void Get_WebPage()
         #endif
         WS.Saved_WiFi_SSID = WS.New_WiFi_SSID;
         WriteString_EEPROM(EEPROM_SSID_ADDRESS,WS.New_WiFi_SSID);
+        WS.Saved_WiFi_SSID = Read_String_EEPROM(EEPROM_SSID_ADDRESS);
       }
       if(WS.New_WiFi_Password != WS.Saved_WiFi_Password)
       {
@@ -156,6 +163,7 @@ void Get_WebPage()
         #endif
         WS.Saved_WiFi_Password = WS.New_WiFi_Password;
         WriteString_EEPROM(EEPROM_PASSWORD_ADDRESS,WS.New_WiFi_Password);
+        WS.Saved_WiFi_Password = Read_String_EEPROM(EEPROM_PASSWORD_ADDRESS);
       }
       Update_WebPage();
     }
