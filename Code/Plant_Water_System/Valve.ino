@@ -1,17 +1,5 @@
 #include "Define.h" 
 
-typedef enum 
-{
-  VALVE0 = 0,
-  VALVE1,
-  VALVE2,
-  VALVE3,
-  VALVE4,
-  VALVE5,
-  VALVE_NONE,
-  VALVE_MAX
-}valve_id_t;
-
 struct valve_config
 {
   valve_id_t  Valve_ID;
@@ -73,4 +61,31 @@ void All_Valves_OFF()
   mcp.digitalWrite(Valve_3_Enable, 0);
   mcp.digitalWrite(Valve_4_Enable, 0);
   mcp.digitalWrite(Valve_5_Enable, 0);
+}
+
+void TIME_VALVE_CFG_Struct_Set()
+{
+  TIME_VALVE_CFG[0].Valve_ID = VALVE0;          //Do not care because for loop never looks at TIME_VALVE_CFG[0]
+  TIME_VALVE_CFG[0].Vale_Time_String = "empty"; //Do not care because for loop never looks at TIME_VALVE_CFG[0]
+  TIME_VALVE_CFG[0].Valve_Open_Sec = 0;         //Do not care because for loop never looks at TIME_VALVE_CFG[0]
+  
+  TIME_VALVE_CFG[1].Valve_ID = VALVE1;
+  TIME_VALVE_CFG[1].Vale_Time_String = WS.Plant1_Time;
+  TIME_VALVE_CFG[1].Valve_Open_Sec = WS.Plant1_Valve_Open_Sec; 
+
+  TIME_VALVE_CFG[2].Valve_ID = VALVE2;
+  TIME_VALVE_CFG[2].Vale_Time_String = WS.Plant2_Time;
+  TIME_VALVE_CFG[2].Valve_Open_Sec = WS.Plant2_Valve_Open_Sec; 
+
+  TIME_VALVE_CFG[3].Valve_ID = VALVE3;
+  TIME_VALVE_CFG[3].Vale_Time_String = WS.Plant3_Time;
+  TIME_VALVE_CFG[3].Valve_Open_Sec = WS.Plant3_Valve_Open_Sec; 
+
+  TIME_VALVE_CFG[4].Valve_ID = VALVE4;
+  TIME_VALVE_CFG[4].Vale_Time_String = WS.Plant4_Time;
+  TIME_VALVE_CFG[4].Valve_Open_Sec = WS.Plant4_Valve_Open_Sec; 
+
+  TIME_VALVE_CFG[5].Valve_ID = VALVE5;
+  TIME_VALVE_CFG[5].Vale_Time_String = WS.Plant5_Time;
+  TIME_VALVE_CFG[5].Valve_Open_Sec = WS.Plant5_Valve_Open_Sec; 
 }

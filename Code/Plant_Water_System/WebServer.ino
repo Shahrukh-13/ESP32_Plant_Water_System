@@ -168,7 +168,7 @@ void Get_WebPage()
         WriteString_EEPROM(EEPROM_PASSWORD_ADDRESS,WS.New_WiFi_Password);
         WS.Saved_WiFi_Password = Read_String_EEPROM(EEPROM_PASSWORD_ADDRESS);
       }
-      Update_WebPage();
+      //Update_WebPage();
     }
         
     // GET input3 and input4 value on <ESP_IP>/get?input3=<VAL>&input4=<VAL>
@@ -194,7 +194,7 @@ void Get_WebPage()
         Serial.println(WS.Plant1_Time);
         Serial.println(WS.Plant1_Valve_Open_Sec);
       #endif
-      Update_WebPage();
+      //Update_WebPage();
     }
     
     // GET input5 and input6 value on <ESP_IP>/get?input5=<VAL>&input6=<VAL>
@@ -220,7 +220,7 @@ void Get_WebPage()
         Serial.println(WS.Plant2_Time);
         Serial.println(WS.Plant2_Valve_Open_Sec);
       #endif
-      Update_WebPage();
+      //Update_WebPage();
     }
     
     // GET input7 and input8 value on <ESP_IP>/get?input7=<VAL>&input8=<VAL>
@@ -246,7 +246,7 @@ void Get_WebPage()
         Serial.println(WS.Plant3_Time);
         Serial.println(WS.Plant3_Valve_Open_Sec);
       #endif
-      Update_WebPage();
+      //Update_WebPage();
     }
     
     // GET input9 and input10 value on <ESP_IP>/get?input9=<VAL>&input10=<VAL>
@@ -272,7 +272,7 @@ void Get_WebPage()
         Serial.println(WS.Plant4_Time);
         Serial.println(WS.Plant4_Valve_Open_Sec);
       #endif
-      Update_WebPage();
+      //Update_WebPage();
     }
     
     // GET input11 and input12 value on <ESP_IP>/get?input11=<VAL>&input12=<VAL>
@@ -298,9 +298,12 @@ void Get_WebPage()
         Serial.println(WS.Plant5_Time);
         Serial.println(WS.Plant5_Valve_Open_Sec);
       #endif
-      Update_WebPage();
+      //Update_WebPage();
     }
-      
+    
+    Update_WebPage();
+    TIME_VALVE_CFG_Struct_Set();
+    
     request->send_P(200, "text/html", WS.index_html);
   });
 }

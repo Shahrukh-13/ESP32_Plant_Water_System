@@ -13,6 +13,7 @@ void setup()
   Motor_Init();
   LCD_Init();
   I2S_Audio_Init();
+  TIME_VALVE_CFG_Struct_Set();
   RTOS_Init();
   NTP_Time_Init();
   WiFi_Init();
@@ -38,6 +39,7 @@ void App_Init()
   AC.WiFi_Reconnect_Interval = 30000; // check every 30 seconds
 
   AC.Do_Harp_LED = false;
+  AC.Which_Valve_Enabled = VALVE_NONE;
 }
 
 void App_Mode_Loop()
@@ -51,9 +53,28 @@ void App_Mode_Loop()
     case APP_STATE_NORMAL:
       if(AC.Test_Mode_Switch_Val == 0)
       {
-        if(NTP.Time == WS.Plant1_Time && VE == 0)
+        for(uint8_t i=1 ; i<=VALVE5 ; i++)
         {
-          VE = 1;
+          if(NTP.Time == TIME_VALVE_CFG[i].Vale_Time_String && AC.Valve_Is_Open == false)
+          {
+            Valve_Select(TIME_VALVE_CFG[i].Valve_ID);
+            AC.Which_Valve_Enabled = TIME_VALVE_CFG[i].Valve_ID;
+            AC.Do_Harp_LED = true;
+            Audio_Write();
+            AC.Do_Harp_LED = false;
+            AC.Valve_Status_PreviousMillis = AC.CurrentMillis;
+            #ifdef SERIAL_DEBUG
+              Serial.print("Valve");
+              Serial.print(TIME_VALVE_CFG[i].Valve_ID);
+              Serial.print(" enabled");
+              Serial.println();
+              Serial.println(AC.Valve_Status_PreviousMillis);
+            #endif
+          }
+        }
+        /*if(NTP.Time == WS.Plant1_Time && AC.Valve_Is_Open == false)
+        {
+          Valve_Select(VALVE1);
           AC.Do_Harp_LED = true;
           Audio_Write();
           AC.Do_Harp_LED = false;
@@ -62,19 +83,33 @@ void App_Mode_Loop()
             Serial.println("Valve1 enabled");
             Serial.println(AC.Valve_Status_PreviousMillis);
           #endif
+        }*/
+        for(uint8_t i=1 ; i<=VALVE5 ; i++)
+        {
+          if (AC.Valve_Is_Open == true && (i == AC.Which_Valve_Enabled) && (AC.CurrentMillis - AC.Valve_Status_PreviousMillis >= (TIME_VALVE_CFG[i].Valve_Open_Sec * 1000)))
+          { 
+            All_Valves_OFF();
+            #ifdef SERIAL_DEBUG
+              Serial.print("Valve");
+              Serial.print(TIME_VALVE_CFG[i].Valve_ID);
+              Serial.print(" disabled");
+              Serial.println();
+              Serial.println(AC.CurrentMillis);
+            #endif
+          }
         }
-        if (VE == 1 && (AC.CurrentMillis - AC.Valve_Status_PreviousMillis >= (WS.Plant1_Valve_Open_Sec * 1000)))
+        /*if (AC.Valve_Is_Open == true && (AC.CurrentMillis - AC.Valve_Status_PreviousMillis >= (WS.Plant1_Valve_Open_Sec * 1000)))
         { 
-          VE = 0;
+          All_Valves_OFF();
           #ifdef SERIAL_DEBUG
             Serial.println("Valve1 disabled");
             Serial.println(AC.CurrentMillis);
           #endif
-        }
-        if(AC.Test_Mode_Valve_Button_Val == 1)
+        }*/
+        /*if(AC.Test_Mode_Valve_Button_Val == 1)
         {
-          //Audio_Write();          
-        }
+          Audio_Write();          
+        }*/
         AC.State = APP_STATE_NORMAL;
       }
       else

@@ -5,6 +5,7 @@ void NTP_Time_Init()
   NTP.gmtOffset_sec = -18000;
   NTP.daylightOffset_sec = 3600;
   NTP.ntpServer = "pool.ntp.org";
+  NTP.Time = "none";
 }
 
 void Config_NTP_Time()

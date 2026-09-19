@@ -105,6 +105,18 @@ typedef enum
   APP_STATE_NORMAL = 0,
   APP_STATE_TEST,
 }app_state_t;
+
+typedef enum 
+{
+  VALVE0 = 0,
+  VALVE1,
+  VALVE2,
+  VALVE3,
+  VALVE4,
+  VALVE5,
+  VALVE_NONE,
+  VALVE_MAX
+}valve_id_t;
 /*****************************************************/
 
 /******Structures************************************/
@@ -139,6 +151,7 @@ struct app_config
   uint8_t Hex_Encoder_Val;
   bool Test_Mode_Valve_Button_Val;
   bool Valve_Is_Open;
+  uint8_t Which_Valve_Enabled;
   unsigned long CurrentMillis;
   unsigned long WiFi_Status_PreviousMillis;
   unsigned long WiFi_Reconnect_Interval;
@@ -160,20 +173,20 @@ struct wifi_config
 
 struct ntp_time
 {
-  long  gmtOffset_sec;
-  int   daylightOffset_sec;
-  String      Date;
-  String      Year;
-  String      Time;
-  char        chDayOfMonth[3];                                    // Day of month (0 through 31).
-  char        chDayofWeek[4];                                     // Day of week (Sunday through Saturday).
-  char        chHour[3];                                          // Hour.
-  char        chMinute[3];                                        // Minute.
-  char        chMonth[4];                                         // Month.
+  long gmtOffset_sec;
+  int daylightOffset_sec;
+  String Date;
+  String Year;
+  String Time;
+  char chDayOfMonth[3];                                    // Day of month (0 through 31).
+  char chDayofWeek[4];                                     // Day of week (Sunday through Saturday).
+  char chHour[3];                                          // Hour.
+  char chMinute[3];                                        // Minute.
+  char chMonth[4];                                         // Month.
   char* ntpServer;
-  char        chSecond[3];                                        // Second.
-  char        chYear[5];                                          // Year.
-  char        AM_PM[3];                                           // AM/PM.
+  char chSecond[3];                                        // Second.
+  char chYear[5];                                          // Year.
+  char AM_PM[3];                                           // AM/PM.
 };
 
 struct webserver_info
@@ -195,6 +208,13 @@ struct webserver_info
   uint16_t Plant4_Valve_Open_Sec;
   uint16_t Plant5_Valve_Open_Sec;
 };
+
+struct time_valve_config
+{
+  valve_id_t  Valve_ID;
+  String Vale_Time_String;
+  uint16_t Valve_Open_Sec;
+};
 /****************************************************/
 
 /*****Varriables*************************************/
@@ -205,7 +225,7 @@ struct motor_status MS[MOTOR_MAX];
 struct wifi_config WC;
 struct ntp_time NTP;
 struct webserver_info WS;
-
+struct time_valve_config TIME_VALVE_CFG[6];
 
 String Default_WiFi_SSID = "Shahrukh13";
 String Default_WiFi_Password = "shahan-2020";
