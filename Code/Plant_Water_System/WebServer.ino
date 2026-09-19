@@ -13,6 +13,9 @@ const char* PARAM_INPUT_10 = "input10";
 const char* PARAM_INPUT_11 = "input11";
 const char* PARAM_INPUT_12 = "input12";
 
+String temp_str;
+uint16_t temp_int;
+
 void Update_WebPage()
 {
   WS.html = "<!DOCTYPE HTML><html><head>";
@@ -48,7 +51,7 @@ void Update_WebPage()
   WS.html+= "<h3>";
   WS.html+= "Saved Plant1 Time: " + WS.Plant1_Time;
   WS.html+= "<br>"; //new line in heading
-  WS.html+= "Saved Plant1 Valve Open Seconds: " + String(WS.Plant1_Valve_Open_Sec/1000);
+  WS.html+= "Saved Plant1 Valve Open Seconds: " + String(WS.Plant1_Valve_Open_Sec);
   WS.html+= "<br>"; //new line in heading
   WS.html+= "</h3>";
 
@@ -64,7 +67,7 @@ void Update_WebPage()
   WS.html+= "<h3>";
   WS.html+= "Saved Plant2 Time: " + WS.Plant2_Time;
   WS.html+= "<br>"; //new line in heading
-  WS.html+= "Saved Plant2 Valve Open Seconds: " + String(WS.Plant2_Valve_Open_Sec/1000);
+  WS.html+= "Saved Plant2 Valve Open Seconds: " + String(WS.Plant2_Valve_Open_Sec);
   WS.html+= "<br>"; //new line in heading
   WS.html+= "</h3>";
 
@@ -80,7 +83,7 @@ void Update_WebPage()
   WS.html+= "<h3>";
   WS.html+= "Saved Plant3 Time: " + WS.Plant3_Time;
   WS.html+= "<br>"; //new line in heading
-  WS.html+= "Saved Plant3 Valve Open Seconds: " + String(WS.Plant3_Valve_Open_Sec/1000);
+  WS.html+= "Saved Plant3 Valve Open Seconds: " + String(WS.Plant3_Valve_Open_Sec);
   WS.html+= "<br>"; //new line in heading
   WS.html+= "</h3>";
   
@@ -96,7 +99,7 @@ void Update_WebPage()
   WS.html+= "<h3>";
   WS.html+= "Saved Plant4 Time: " + WS.Plant4_Time;
   WS.html+= "<br>"; //new line in heading
-  WS.html+= "Saved Plant4 Valve Open Seconds: " + String(WS.Plant4_Valve_Open_Sec/1000);
+  WS.html+= "Saved Plant4 Valve Open Seconds: " + String(WS.Plant4_Valve_Open_Sec);
   WS.html+= "<br>"; //new line in heading
   WS.html+= "</h3>";
   
@@ -112,7 +115,7 @@ void Update_WebPage()
   WS.html+= "<h3>";
   WS.html+= "Saved Plant5 Time: " + WS.Plant5_Time;
   WS.html+= "<br>"; //new line in heading
-  WS.html+= "Saved Plant5 Valve Open Seconds: " + String(WS.Plant5_Valve_Open_Sec/1000);
+  WS.html+= "Saved Plant5 Valve Open Seconds: " + String(WS.Plant5_Valve_Open_Sec);
   WS.html+= "<br>"; //new line in heading
   WS.html+= "</h3>";
   
@@ -138,7 +141,7 @@ void Send_WebPage()
 }
 
 void Get_WebPage()
-{ 
+{   
   // Send a GET request to <ESP_IP>
   server.on("/get", HTTP_GET, [] (AsyncWebServerRequest *request) 
   {    
@@ -171,8 +174,22 @@ void Get_WebPage()
     // GET input3 and input4 value on <ESP_IP>/get?input3=<VAL>&input4=<VAL>
     else if (request->hasParam(PARAM_INPUT_3) && request->hasParam(PARAM_INPUT_4)) 
     {
-      WS.Plant1_Time = request->getParam(PARAM_INPUT_3)->value();
-      WS.Plant1_Valve_Open_Sec = request->getParam(PARAM_INPUT_4)->value().toInt() * 1000;
+      String temp_str = request->getParam(PARAM_INPUT_3)->value();
+      if(temp_str != WS.Plant1_Time)
+      {
+        WS.Plant1_Time = temp_str;
+        WriteString_EEPROM(EEPROM_PLANT1_TIME_ADDRESS, WS.Plant1_Time);
+        WS.Plant1_Time = Read_String_EEPROM(EEPROM_PLANT1_TIME_ADDRESS);
+      }
+      
+      uint16_t temp_int = request->getParam(PARAM_INPUT_4)->value().toInt();
+      if(temp_int != WS.Plant1_Valve_Open_Sec)
+      {
+        WS.Plant1_Valve_Open_Sec = temp_int;
+        EEPROM.write(EEPROM_PLANT1_VALVE_OPEN_SEC, WS.Plant1_Valve_Open_Sec);
+        EEPROM.commit();
+        WS.Plant1_Valve_Open_Sec = EEPROM.read(EEPROM_PLANT1_VALVE_OPEN_SEC);
+      }
       #ifdef SERIAL_DEBUG
         Serial.println(WS.Plant1_Time);
         Serial.println(WS.Plant1_Valve_Open_Sec);
@@ -183,8 +200,22 @@ void Get_WebPage()
     // GET input5 and input6 value on <ESP_IP>/get?input5=<VAL>&input6=<VAL>
     else if (request->hasParam(PARAM_INPUT_5) && request->hasParam(PARAM_INPUT_6)) 
     {
-      WS.Plant2_Time = request->getParam(PARAM_INPUT_5)->value();
-      WS.Plant2_Valve_Open_Sec = request->getParam(PARAM_INPUT_6)->value().toInt() * 1000;
+      temp_str = request->getParam(PARAM_INPUT_5)->value();
+      if(temp_str != WS.Plant2_Time)
+      {
+        WS.Plant2_Time = temp_str;
+        WriteString_EEPROM(EEPROM_PLANT2_TIME_ADDRESS, WS.Plant2_Time);
+        WS.Plant2_Time = Read_String_EEPROM(EEPROM_PLANT2_TIME_ADDRESS);
+      }
+      
+      temp_int = request->getParam(PARAM_INPUT_6)->value().toInt();
+      if(temp_int != WS.Plant2_Valve_Open_Sec)
+      {
+        WS.Plant2_Valve_Open_Sec = temp_int;
+        EEPROM.write(EEPROM_PLANT2_VALVE_OPEN_SEC, WS.Plant2_Valve_Open_Sec);
+        EEPROM.commit();
+        WS.Plant2_Valve_Open_Sec = EEPROM.read(EEPROM_PLANT2_VALVE_OPEN_SEC);
+      }
       #ifdef SERIAL_DEBUG
         Serial.println(WS.Plant2_Time);
         Serial.println(WS.Plant2_Valve_Open_Sec);
@@ -195,8 +226,22 @@ void Get_WebPage()
     // GET input7 and input8 value on <ESP_IP>/get?input7=<VAL>&input8=<VAL>
     else if (request->hasParam(PARAM_INPUT_7) && request->hasParam(PARAM_INPUT_8)) 
     {
-      WS.Plant3_Time = request->getParam(PARAM_INPUT_7)->value();
-      WS.Plant3_Valve_Open_Sec = request->getParam(PARAM_INPUT_8)->value().toInt() * 1000;
+      temp_str = request->getParam(PARAM_INPUT_7)->value();
+      if(temp_str != WS.Plant3_Time)
+      {
+        WS.Plant3_Time = temp_str;
+        WriteString_EEPROM(EEPROM_PLANT3_TIME_ADDRESS, WS.Plant3_Time);
+        WS.Plant3_Time = Read_String_EEPROM(EEPROM_PLANT3_TIME_ADDRESS);
+      }
+      
+      temp_int = request->getParam(PARAM_INPUT_8)->value().toInt();
+      if(temp_int != WS.Plant3_Valve_Open_Sec)
+      {
+        WS.Plant3_Valve_Open_Sec = temp_int;
+        EEPROM.write(EEPROM_PLANT3_VALVE_OPEN_SEC, WS.Plant3_Valve_Open_Sec);
+        EEPROM.commit();
+        WS.Plant3_Valve_Open_Sec = EEPROM.read(EEPROM_PLANT3_VALVE_OPEN_SEC);
+      }
       #ifdef SERIAL_DEBUG
         Serial.println(WS.Plant3_Time);
         Serial.println(WS.Plant3_Valve_Open_Sec);
@@ -207,8 +252,22 @@ void Get_WebPage()
     // GET input9 and input10 value on <ESP_IP>/get?input9=<VAL>&input10=<VAL>
     else if (request->hasParam(PARAM_INPUT_9) && request->hasParam(PARAM_INPUT_10)) 
     {
-      WS.Plant4_Time = request->getParam(PARAM_INPUT_9)->value();
-      WS.Plant4_Valve_Open_Sec = request->getParam(PARAM_INPUT_10)->value().toInt() * 1000;
+      temp_str = request->getParam(PARAM_INPUT_9)->value();
+      if(temp_str != WS.Plant4_Time)
+      {
+        WS.Plant4_Time = temp_str;
+        WriteString_EEPROM(EEPROM_PLANT4_TIME_ADDRESS, WS.Plant4_Time);
+        WS.Plant4_Time = Read_String_EEPROM(EEPROM_PLANT4_TIME_ADDRESS);
+      }
+      
+      temp_int = request->getParam(PARAM_INPUT_10)->value().toInt();
+      if(temp_int != WS.Plant4_Valve_Open_Sec)
+      {
+        WS.Plant4_Valve_Open_Sec = temp_int;
+        EEPROM.write(EEPROM_PLANT4_VALVE_OPEN_SEC, WS.Plant4_Valve_Open_Sec);
+        EEPROM.commit();
+        WS.Plant4_Valve_Open_Sec = EEPROM.read(EEPROM_PLANT4_VALVE_OPEN_SEC);
+      }
       #ifdef SERIAL_DEBUG
         Serial.println(WS.Plant4_Time);
         Serial.println(WS.Plant4_Valve_Open_Sec);
@@ -219,8 +278,22 @@ void Get_WebPage()
     // GET input11 and input12 value on <ESP_IP>/get?input11=<VAL>&input12=<VAL>
     else if (request->hasParam(PARAM_INPUT_11) && request->hasParam(PARAM_INPUT_12)) 
     {
-      WS.Plant5_Time = request->getParam(PARAM_INPUT_11)->value();
-      WS.Plant5_Valve_Open_Sec = request->getParam(PARAM_INPUT_12)->value().toInt() * 1000;
+      temp_str = request->getParam(PARAM_INPUT_11)->value();
+      if(temp_str != WS.Plant5_Time)
+      {
+        WS.Plant5_Time = temp_str;
+        WriteString_EEPROM(EEPROM_PLANT5_TIME_ADDRESS, WS.Plant5_Time);
+        WS.Plant5_Time = Read_String_EEPROM(EEPROM_PLANT5_TIME_ADDRESS);
+      }
+      
+      temp_int = request->getParam(PARAM_INPUT_12)->value().toInt();
+      if(temp_int != WS.Plant5_Valve_Open_Sec)
+      {
+        WS.Plant5_Valve_Open_Sec = temp_int;
+        EEPROM.write(EEPROM_PLANT5_VALVE_OPEN_SEC, WS.Plant5_Valve_Open_Sec);
+        EEPROM.commit();
+        WS.Plant5_Valve_Open_Sec = EEPROM.read(EEPROM_PLANT5_VALVE_OPEN_SEC);
+      }
       #ifdef SERIAL_DEBUG
         Serial.println(WS.Plant5_Time);
         Serial.println(WS.Plant5_Valve_Open_Sec);

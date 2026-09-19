@@ -63,7 +63,7 @@ void App_Mode_Loop()
             Serial.println(AC.Valve_Status_PreviousMillis);
           #endif
         }
-        if (VE == 1 && (AC.CurrentMillis - AC.Valve_Status_PreviousMillis >= WS.Plant1_Valve_Open_Sec))
+        if (VE == 1 && (AC.CurrentMillis - AC.Valve_Status_PreviousMillis >= (WS.Plant1_Valve_Open_Sec * 1000)))
         { 
           VE = 0;
           #ifdef SERIAL_DEBUG
