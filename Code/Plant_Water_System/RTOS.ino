@@ -49,6 +49,11 @@ void Task1code( void * pvParameters )
       WiFi_Reconnect();
       AC.WiFi_Status_PreviousMillis = AC.CurrentMillis;
     }
+
+    if(AC.Mute_Audio == true && (AC.CurrentMillis - AC.Audio_Mute_Status_PreviousMillis >= (AC.Audio_Mute_Min * 60 * 1000)))
+    {
+      AC.Mute_Audio = false;
+    }
   }
 }
 
@@ -64,8 +69,9 @@ void Task2code( void * pvParameters )
       pinMode(WiFi_Status_LED, OUTPUT);
       All_ESP32_LEDs_OFF();
       Do_Harp_LED();
+      delay(100);
     }
-
+    
     //Coming out of the task this pin congiguraion was getting reset, so I am reconfiguring it to OUTPUT here
     pinMode(WiFi_Status_LED, OUTPUT);
   }

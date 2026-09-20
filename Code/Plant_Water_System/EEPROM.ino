@@ -75,6 +75,12 @@ void EEPROM_Init()
     WS.Plant5_Time = Read_String_EEPROM(EEPROM_PLANT5_TIME_ADDRESS);
   }
 
+  #ifdef SERIAL_DEBUG
+    Serial.print("Plant5 Time: ");
+    Serial.print(WS.Plant5_Time);
+    Serial.println();
+  #endif
+
   //Set Plant1_Valve_Open_Sec to 5 if nothing saved on EEPROM
   //Set Plant2_Valve_Open_Sec to 5 if nothing saved on EEPROM
   //Set Plant3_Valve_Open_Sec to 5 if nothing saved on EEPROM
@@ -133,7 +139,7 @@ void EEPROM_Init()
 }
 
 
-void WriteString_EEPROM(char add,String data)
+void WriteString_EEPROM(int add,String data)
 {
   int _size = data.length();
   int i;
@@ -146,7 +152,7 @@ void WriteString_EEPROM(char add,String data)
 }
 
 
-String Read_String_EEPROM(char add)
+String Read_String_EEPROM(int add)
 {
   int i;
   char data[50]; 

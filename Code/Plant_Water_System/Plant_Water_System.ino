@@ -96,11 +96,6 @@ void App_Mode_Loop()
             #endif
           }
         }
-
-        if(AC.Mute_Audio == true && (AC.CurrentMillis - AC.Audio_Mute_Status_PreviousMillis >= (AC.Audio_Mute_Min * 60 * 1000)))
-        {
-          AC.Mute_Audio = false;
-        }
         AC.State = APP_STATE_NORMAL;
       }
       else

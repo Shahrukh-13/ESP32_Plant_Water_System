@@ -22,9 +22,9 @@ void WiFi_Init()
   {
       delay(500);
       #ifdef SERIAL_DEBUG
-        Serial.print(".");
-        Serial.print("Connecting to ");
-        Serial.print(WC.ssid_i);
+        Serial.println("Connecting to");
+        Serial.println(WC.ssid_i);
+        Serial.println(WC.password_i);
       #endif
       
       LCD__Clear();
@@ -73,7 +73,6 @@ void WiFi_Init()
         Serial.println("revert to default SSID");
         Serial.println("revert to default password");
       #endif
-      delay(2000);
       ESP.restart();
     }
   }
