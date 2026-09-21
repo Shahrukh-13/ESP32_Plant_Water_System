@@ -42,13 +42,13 @@ void Task1code( void * pvParameters )
       LCD_Display_App_Stats();
       
       // if WiFi is down, try reconnecting
-      if ((WiFi.status() != WL_CONNECTED) && (AC.CurrentMillis - AC.WiFi_Status_PreviousMillis >= AC.WiFi_Reconnect_Interval)) 
+      if ((WiFi.status() != WL_CONNECTED) && (AC.CurrentMillis - AC.WiFi_Reconnect_Status_PreviousMillis >= WS.WiFi_Reconnect_Sec * 1000)) 
       {
         #ifdef SERIAL_DEBUG
           Serial.println("try reconnecting to WiFi");
         #endif
         WiFi_Reconnect();
-        AC.WiFi_Status_PreviousMillis = AC.CurrentMillis;
+        AC.WiFi_Reconnect_Status_PreviousMillis = AC.CurrentMillis;
       }
   
       if(AC.Mute_Audio == true && (AC.CurrentMillis - AC.Audio_Mute_Status_PreviousMillis >= (WS.Audio_Mute_Min * 60 * 1000)))

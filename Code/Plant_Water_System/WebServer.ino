@@ -13,6 +13,7 @@ const char* PARAM_INPUT_10 = "input10";
 const char* PARAM_INPUT_11 = "input11";
 const char* PARAM_INPUT_12 = "input12";
 const char* PARAM_INPUT_13 = "input13";
+const char* PARAM_INPUT_14 = "input14";
 
 String temp_str;
 uint16_t temp_int;
@@ -137,6 +138,18 @@ void Update_WebPage()
   // Input field for New Audio Mute Minutes
   WS.html+= "<form action=\"/get\">";
   WS.html+= "Audio Mute Minutes: <input type=\"number\" name=\"input13\" min=\"1\" max=\"60\">";
+  WS.html+= "<input type=\"submit\" value=\"Submit\">";
+  WS.html+= "</form><br><br>";
+
+  // Heading to display WiFi reconnect interval in seconds in EEPROM
+  WS.html+= "<h3>";
+  WS.html+= "WiFi Reconnect Seconds: " + String(WS.WiFi_Reconnect_Sec);
+  WS.html+= "<br>"; //new line in heading
+  WS.html+= "</h3>";
+
+  // Input field for New WiFi Reconnect Seconds
+  WS.html+= "<form action=\"/get\">";
+  WS.html+= "WiFi Reconnect Seconds: <input type=\"number\" name=\"input14\" min=\"5\" max=\"240\">";
   WS.html+= "<input type=\"submit\" value=\"Submit\">";
   WS.html+= "</form><br><br>";
   
@@ -320,6 +333,21 @@ void Get_WebPage()
       }
       #ifdef SERIAL_DEBUG
         Serial.println(WS.Audio_Mute_Min);
+      #endif
+    }
+
+    else if(request->hasParam(PARAM_INPUT_14))
+    {
+      temp_int = request->getParam(PARAM_INPUT_14)->value().toInt();
+      if(temp_int != WS.WiFi_Reconnect_Sec)
+      {
+        WS.WiFi_Reconnect_Sec = temp_int;
+        EEPROM.write(EEPROM_WIFI_RECON_SEC, WS.WiFi_Reconnect_Sec);
+        EEPROM.commit();
+        WS.WiFi_Reconnect_Sec = EEPROM.read(EEPROM_WIFI_RECON_SEC);
+      }
+      #ifdef SERIAL_DEBUG
+        Serial.println(WS.WiFi_Reconnect_Sec);
       #endif
     }
     

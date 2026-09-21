@@ -130,6 +130,16 @@ void EEPROM_Init()
     EEPROM.commit();
     WS.Audio_Mute_Min = EEPROM.read(EEPROM_AUDIO_MUTE_MIN);
   }
+
+  //Set WiFi_Reconnect_Sec to 30 if nothing saved on EEPROM
+  WS.WiFi_Reconnect_Sec = EEPROM.read(EEPROM_WIFI_RECON_SEC);
+  if(WS.WiFi_Reconnect_Sec == 0xFF)
+  {
+    WS.WiFi_Reconnect_Sec = 30;
+    EEPROM.write(EEPROM_WIFI_RECON_SEC, WS.WiFi_Reconnect_Sec);
+    EEPROM.commit();
+    WS.WiFi_Reconnect_Sec = EEPROM.read(EEPROM_WIFI_RECON_SEC);
+  }
 }
 
 
