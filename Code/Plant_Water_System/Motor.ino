@@ -22,12 +22,6 @@ void Motor_Loop()
   MS[MOTOR_DRAIN].Motor_Switch_val = digitalRead(Switch_ExternalDrain);
   MS[MOTOR_REFILL].Motor_Switch_val = digitalRead(Switch_ExternalRefill);
 
-  #ifdef SERIAL_DEBUG
-    /*Serial.print(MS[MOTOR_DRAIN].Motor_Switch_val);
-    Serial.print(" : ");
-    Serial.print(MS[MOTOR_REFILL].Motor_Switch_val);*/
-  #endif
-
   motor_id_t motor_id;
   
   for(uint8_t i=0; i<MOTOR_MAX ; i++)

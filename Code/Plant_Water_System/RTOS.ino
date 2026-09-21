@@ -15,7 +15,7 @@ void RTOS_Init()
                     &Task1,      /* Task handle to keep track of created task */
                     0);          /* pin task to core 0 */                  
   delay(500); 
-
+  
   //create a task that will be executed in the Task2code() function, with priority 1 and executed on core 1
   xTaskCreatePinnedToCore(
                     Task2code,   /* Task function. */
@@ -31,36 +31,37 @@ void RTOS_Init()
 //Task1code: Plant Water system
 void Task1code( void * pvParameters )
 {
-  for(;;){
-    AC.CurrentMillis = millis();
-    App_Mode_Loop();
-    Water_Level_Loop();
-    Motor_Loop();
-    Set_Leds();
-    GetLocalTime();
-    LCD_Display_App_Stats();
-    
-    // if WiFi is down, try reconnecting
-    if ((WiFi.status() != WL_CONNECTED) && (AC.CurrentMillis - AC.WiFi_Status_PreviousMillis >= AC.WiFi_Reconnect_Interval)) 
-    {
-      #ifdef SERIAL_DEBUG
-        Serial.println("try reconnecting to WiFi");
-      #endif
-      WiFi_Reconnect();
-      AC.WiFi_Status_PreviousMillis = AC.CurrentMillis;
-    }
-
-    if(AC.Mute_Audio == true && (AC.CurrentMillis - AC.Audio_Mute_Status_PreviousMillis >= (AC.Audio_Mute_Min * 60 * 1000)))
-    {
-      AC.Mute_Audio = false;
-    }
+  while(1)
+  {
+      AC.CurrentMillis = millis();
+      App_Mode_Loop();
+      Water_Level_Loop();
+      Motor_Loop();
+      Set_Leds();
+      GetLocalTime();
+      LCD_Display_App_Stats();
+      
+      // if WiFi is down, try reconnecting
+      if ((WiFi.status() != WL_CONNECTED) && (AC.CurrentMillis - AC.WiFi_Status_PreviousMillis >= AC.WiFi_Reconnect_Interval)) 
+      {
+        #ifdef SERIAL_DEBUG
+          Serial.println("try reconnecting to WiFi");
+        #endif
+        WiFi_Reconnect();
+        AC.WiFi_Status_PreviousMillis = AC.CurrentMillis;
+      }
+  
+      if(AC.Mute_Audio == true && (AC.CurrentMillis - AC.Audio_Mute_Status_PreviousMillis >= (AC.Audio_Mute_Min * 60 * 1000)))
+      {
+        AC.Mute_Audio = false;
+      }
   }
 }
 
 //Task2code: Harp LEDs
 void Task2code( void * pvParameters )
 {
-  for(;;)
+  while(1)
   {
     delay(500);
     if(AC.Do_Harp_LED == true)

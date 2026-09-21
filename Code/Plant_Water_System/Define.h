@@ -83,8 +83,6 @@ Adafruit_MCP23X17 mcp;
 //Declare the asynchronous web server object on port 80
 AsyncWebServer server(80);
 
-//Declare a handle for the Mutex
-//SemaphoreHandle_t serialMutex;
 
 /******Typedefs****************************************/
 typedef enum
