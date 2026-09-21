@@ -60,19 +60,19 @@ void Task1code( void * pvParameters )
 //Task2code: Harp LEDs
 void Task2code( void * pvParameters )
 {
-  for(;;){
-    //AC.Test_Mode_Valve_Button_Val = digitalRead(Button_TestMode_ValveEnable);
+  for(;;)
+  {
     delay(500);
-    //if(AC.Test_Mode_Valve_Button_Val == 1)
     if(AC.Do_Harp_LED == true)
     {
+      //reconfiguring pin to OUTPUT here
       pinMode(WiFi_Status_LED, OUTPUT);
       All_ESP32_LEDs_OFF();
       Do_Harp_LED();
       delay(100);
     }
     
-    //Coming out of the task this pin congiguraion was getting reset, so I am reconfiguring it to OUTPUT here
+    //reconfiguring pin to OUTPUT here
     pinMode(WiFi_Status_LED, OUTPUT);
   }
 }

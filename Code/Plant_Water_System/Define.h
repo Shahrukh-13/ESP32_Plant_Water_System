@@ -77,8 +77,14 @@
 #define EEPROM_PLANT5_VALVE_OPEN_SEC          355
 //#define EEPROM_AUDIO_MUTE_MIN                 307
 
+//Declare the MCP23X17 object
 Adafruit_MCP23X17 mcp;
+
+//Declare the asynchronous web server object on port 80
 AsyncWebServer server(80);
+
+//Declare a handle for the Mutex
+//SemaphoreHandle_t serialMutex;
 
 /******Typedefs****************************************/
 typedef enum
