@@ -12,6 +12,7 @@ const char* PARAM_INPUT_9  = "input9";
 const char* PARAM_INPUT_10 = "input10";
 const char* PARAM_INPUT_11 = "input11";
 const char* PARAM_INPUT_12 = "input12";
+const char* PARAM_INPUT_13 = "input13";
 
 String temp_str;
 uint16_t temp_int;
@@ -124,6 +125,18 @@ void Update_WebPage()
   WS.html+= "Plant5 Time: <input type=\"text\" name=\"input11\">";
   WS.html+= "<br><br>";
   WS.html+= "Plant5 Valve Open Seconds: <input type=\"number\" name=\"input12\" min=\"1\" max=\"60\">";
+  WS.html+= "<input type=\"submit\" value=\"Submit\">";
+  WS.html+= "</form><br><br>";
+
+  // Heading to display current saved Audio Mute minutes in EEPROM
+  WS.html+= "<h3>";
+  WS.html+= "Saved Audio Mute Minutes: " + String(WS.Audio_Mute_Min);
+  WS.html+= "<br>"; //new line in heading
+  WS.html+= "</h3>";
+
+  // Input field for New Audio Mute Minutes
+  WS.html+= "<form action=\"/get\">";
+  WS.html+= "Audio Mute Minutes: <input type=\"number\" name=\"input13\" min=\"1\" max=\"60\">";
   WS.html+= "<input type=\"submit\" value=\"Submit\">";
   WS.html+= "</form><br><br>";
   
@@ -292,6 +305,21 @@ void Get_WebPage()
       #ifdef SERIAL_DEBUG
         Serial.println(WS.Plant5_Time);
         Serial.println(WS.Plant5_Valve_Open_Sec);
+      #endif
+    }
+
+    else if (request->hasParam(PARAM_INPUT_13)) 
+    {
+      temp_int = request->getParam(PARAM_INPUT_13)->value().toInt();
+      if(temp_int != WS.Audio_Mute_Min)
+      {
+        WS.Audio_Mute_Min = temp_int;
+        EEPROM.write(EEPROM_AUDIO_MUTE_MIN, WS.Audio_Mute_Min);
+        EEPROM.commit();
+        WS.Audio_Mute_Min = EEPROM.read(EEPROM_AUDIO_MUTE_MIN);
+      }
+      #ifdef SERIAL_DEBUG
+        Serial.println(WS.Audio_Mute_Min);
       #endif
     }
     

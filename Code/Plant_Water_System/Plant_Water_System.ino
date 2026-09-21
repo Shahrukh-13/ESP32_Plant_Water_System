@@ -42,7 +42,6 @@ void App_Init()
   AC.WiFi_Status_PreviousMillis = 0;
   AC.Audio_Mute_Status_PreviousMillis = 0;
 
-  AC.Audio_Mute_Min = 15;
   AC.WiFi_Reconnect_Interval = 30000; // check every 30 seconds
 }
 

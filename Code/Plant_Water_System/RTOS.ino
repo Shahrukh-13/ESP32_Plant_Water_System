@@ -51,7 +51,7 @@ void Task1code( void * pvParameters )
         AC.WiFi_Status_PreviousMillis = AC.CurrentMillis;
       }
   
-      if(AC.Mute_Audio == true && (AC.CurrentMillis - AC.Audio_Mute_Status_PreviousMillis >= (AC.Audio_Mute_Min * 60 * 1000)))
+      if(AC.Mute_Audio == true && (AC.CurrentMillis - AC.Audio_Mute_Status_PreviousMillis >= (WS.Audio_Mute_Min * 60 * 1000)))
       {
         AC.Mute_Audio = false;
       }

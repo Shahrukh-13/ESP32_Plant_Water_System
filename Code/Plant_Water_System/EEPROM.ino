@@ -121,15 +121,15 @@ void EEPROM_Init()
     WS.Plant5_Valve_Open_Sec = EEPROM.read(EEPROM_PLANT5_VALVE_OPEN_SEC);
   }
 
-  //Set Audio_Mute_Min to 10 if nothing saved on EEPROM
-  /*WS.Audio_Mute_Min = EEPROM.read(EEPROM_AUDIO_MUTE_MIN);
+ //Set Audio_Mute_Min to 15 if nothing saved on EEPROM
+  WS.Audio_Mute_Min = EEPROM.read(EEPROM_AUDIO_MUTE_MIN);
   if(WS.Audio_Mute_Min == 0xFF)
   {
-    WS.Audio_Mute_Min = 10;
+    WS.Audio_Mute_Min = 15;
     EEPROM.write(EEPROM_AUDIO_MUTE_MIN, WS.Audio_Mute_Min);
     EEPROM.commit();
     WS.Audio_Mute_Min = EEPROM.read(EEPROM_AUDIO_MUTE_MIN);
-  }*/
+  }
 }
 
 

@@ -75,7 +75,7 @@
 #define EEPROM_PLANT3_VALVE_OPEN_SEC          353
 #define EEPROM_PLANT4_VALVE_OPEN_SEC          354
 #define EEPROM_PLANT5_VALVE_OPEN_SEC          355
-//#define EEPROM_AUDIO_MUTE_MIN                 307
+#define EEPROM_AUDIO_MUTE_MIN                 356
 
 //Declare the MCP23X17 object
 Adafruit_MCP23X17 mcp;
@@ -215,7 +215,7 @@ struct webserver_info
   uint16_t Plant3_Valve_Open_Sec;
   uint16_t Plant4_Valve_Open_Sec;
   uint16_t Plant5_Valve_Open_Sec;
-  //uint32_t Audio_Mute_Min;
+  uint32_t Audio_Mute_Min;
 };
 
 struct time_valve_config
