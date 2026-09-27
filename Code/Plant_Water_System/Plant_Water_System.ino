@@ -69,6 +69,9 @@ void App_Mode_Loop()
             AC.Mute_Audio = true;
             AC.Valve_Status_PreviousMillis = AC.CurrentMillis;
             AC.Audio_Mute_Status_PreviousMillis = AC.CurrentMillis;
+
+            MS[MOTOR_DRAIN].Timed_Motor_Enable = true;
+            
             #ifdef SERIAL_DEBUG
               Serial.print("Valve");
               Serial.print(TIME_VALVE_CFG[i].Valve_ID);
@@ -83,6 +86,7 @@ void App_Mode_Loop()
         {
           if (AC.Valve_Is_Open == true && (i == AC.Which_Valve_Enabled) && (AC.CurrentMillis - AC.Valve_Status_PreviousMillis >= (TIME_VALVE_CFG[i].Valve_Open_Sec * 1000)))
           { 
+            MS[MOTOR_DRAIN].Timed_Motor_Enable = false;
             All_Valves_OFF();
             #ifdef SERIAL_DEBUG
               Serial.print("Valve");

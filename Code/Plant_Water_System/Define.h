@@ -143,6 +143,7 @@ struct motor_status
 {
   bool Motor_Good_To_Run;
   bool Motor_Enable;
+  bool Timed_Motor_Enable;
   bool Motor_Switch_val;
   motor_state_t State;
 };
