@@ -222,7 +222,13 @@ struct webserver_info
 struct time_valve_config
 {
   valve_id_t  Valve_ID;
-  String Vale_Time_String;
+  String Vale_Time_String_Mon;
+  String Vale_Time_String_Tue;
+  String Vale_Time_String_Wed;
+  String Vale_Time_String_Thu;
+  String Vale_Time_String_Fri;
+  String Vale_Time_String_Sat;
+  String Vale_Time_String_Sun;
   uint16_t Valve_Open_Sec;
 };
 /****************************************************/

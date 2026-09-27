@@ -54,9 +54,15 @@ void App_Mode_Loop()
     case APP_STATE_NORMAL:
       if(AC.Test_Mode_Switch_Val == 0)
       {
-        for(uint8_t i=1 ; i<=VALVE5 ; i++)
+        for(uint8_t i=VALVE1 ; i<=VALVE5 ; i++)
         {
-          if(NTP.Time == TIME_VALVE_CFG[i].Vale_Time_String && AC.Valve_Is_Open == false)
+          if((NTP.Time == TIME_VALVE_CFG[i].Vale_Time_String_Mon ||
+              NTP.Time == TIME_VALVE_CFG[i].Vale_Time_String_Tue ||
+              NTP.Time == TIME_VALVE_CFG[i].Vale_Time_String_Wed ||
+              NTP.Time == TIME_VALVE_CFG[i].Vale_Time_String_Thu ||
+              NTP.Time == TIME_VALVE_CFG[i].Vale_Time_String_Fri ||
+              NTP.Time == TIME_VALVE_CFG[i].Vale_Time_String_Sat ||
+              NTP.Time == TIME_VALVE_CFG[i].Vale_Time_String_Sun) && AC.Valve_Is_Open == false)
           {
             Valve_Select(TIME_VALVE_CFG[i].Valve_ID);
             AC.Which_Valve_Enabled = TIME_VALVE_CFG[i].Valve_ID;
@@ -82,7 +88,7 @@ void App_Mode_Loop()
           }
         }
         
-        for(uint8_t i=1 ; i<=VALVE5 ; i++)
+        for(uint8_t i=VALVE1 ; i<=VALVE5 ; i++)
         {
           if (AC.Valve_Is_Open == true && (i == AC.Which_Valve_Enabled) && (AC.CurrentMillis - AC.Valve_Status_PreviousMillis >= (TIME_VALVE_CFG[i].Valve_Open_Sec * 1000)))
           { 
