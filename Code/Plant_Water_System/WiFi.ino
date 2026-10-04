@@ -1,0 +1,107 @@
+#include "Define.h" 
+
+void WiFi_Init()
+{
+  char buffer[100];
+  WC.wifi_connection_timeout_count = 0;
+  
+  WC.ssid_str = Read_String_EEPROM(EEPROM_SSID_ADDRESS);
+  WC.password_str = Read_String_EEPROM(EEPROM_PASSWORD_ADDRESS);
+
+  WS.Saved_WiFi_SSID = WC.ssid_str;
+  WS.Saved_WiFi_Password = WC.password_str;
+  
+  #ifdef SERIAL_DEBUG
+    //Serial.println(WC.ssid_str);
+    //Serial.println(WC.password_str);
+  #endif
+     
+  //connect to WiFi
+  WiFi.begin(WC.ssid, WC.password);
+  while (WiFi.status() != WL_CONNECTED && WC.wifi_connection_timeout_count <7) 
+  {
+      delay(500);
+      #ifdef SERIAL_DEBUG
+        Serial.println("Connecting to");
+        Serial.println(WC.ssid_str);
+        Serial.println(WC.password_str);
+      #endif
+      
+      LCD__Clear();
+      snprintf(buffer, sizeof(buffer), "Connecting to \n" 
+                                       "%s", WC.ssid_str.c_str()); 
+      LCD_Write(0, 0, String(buffer));
+      
+      WC.wifi_connection_timeout_count++;
+      #ifdef SERIAL_DEBUG
+        Serial.print("WC.wifi_connection_timeout_count= ");
+        Serial.print(WC.wifi_connection_timeout_count);
+        Serial.println();
+     #endif
+  }
+  
+  if(WC.wifi_connection_timeout_count >=7)
+  {
+    if(WC.PowerCycle_Count <5)
+    {
+      WC.PowerCycle_Count++;
+      EEPROM.write(EEPROM_POWERCYCLE_COUNT_ADDRESS,WC.PowerCycle_Count);
+      EEPROM.commit();
+      WC.PowerCycle_Count = EEPROM.read(EEPROM_POWERCYCLE_COUNT_ADDRESS);
+
+      #ifdef SERIAL_DEBUG
+        Serial.print("NewPowerCycle_Count= ");
+        Serial.print(WC.PowerCycle_Count);
+        Serial.println();
+      #endif
+      ESP.restart();
+    }
+    else
+    {
+      WC.PowerCycle_Count = 0;
+      EEPROM.write(EEPROM_POWERCYCLE_COUNT_ADDRESS,WC.PowerCycle_Count);
+      EEPROM.commit();
+      
+      WC.ssid_str = Default_WiFi_SSID;
+      Write_String_EEPROM(EEPROM_SSID_ADDRESS,WC.ssid_str);
+      WC.ssid_str = Read_String_EEPROM(EEPROM_SSID_ADDRESS);
+
+      WC.password_str = Default_WiFi_Password;
+      Write_String_EEPROM(EEPROM_PASSWORD_ADDRESS, WC.password_str);
+      WC.password_str = Read_String_EEPROM(EEPROM_PASSWORD_ADDRESS);
+      #ifdef SERIAL_DEBUG
+        Serial.println("revert to default SSID");
+        Serial.println("revert to default password");
+      #endif
+      ESP.restart();
+    }
+  }
+  
+  if(WiFi.status() == WL_CONNECTED)
+  {
+    #ifdef SERIAL_DEBUG
+      //Serial.println(WiFi.localIP().toString());
+      Serial.println(WiFi.localIP());
+    #endif
+    //init and get the time
+    Config_NTP_Time();
+
+    //Update WebPage
+    Update_WebPage();    
+    
+    // Send web page with input fields to client
+    Send_WebPage(); 
+    
+    // Send a GET request to <ESP_IP>
+    Get_WebPage();
+    
+    server.onNotFound(notFound);
+    server.begin();
+  }
+}
+
+void WiFi_Reconnect()
+{
+    WiFi.disconnect();
+    WiFi.reconnect();
+}
