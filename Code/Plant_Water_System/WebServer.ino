@@ -191,7 +191,7 @@ void Get_WebPage()
       if(WS.New_WiFi_Password != WS.Saved_WiFi_Password)
       {
         #ifdef SERIAL_DEBUG
-          Serial.println(WS.New_WiFi_Password);
+          //Serial.println(WS.New_WiFi_Password);
         #endif
         WS.Saved_WiFi_Password = WS.New_WiFi_Password;
         Write_String_EEPROM(EEPROM_PASSWORD_ADDRESS,WS.New_WiFi_Password);

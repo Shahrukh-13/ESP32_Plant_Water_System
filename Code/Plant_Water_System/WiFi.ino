@@ -24,7 +24,7 @@ void WiFi_Init()
       #ifdef SERIAL_DEBUG
         Serial.println("Connecting to");
         Serial.println(WC.ssid_str);
-        Serial.println(WC.password_str);
+        //Serial.println(WC.password_str);
       #endif
       
       LCD__Clear();
