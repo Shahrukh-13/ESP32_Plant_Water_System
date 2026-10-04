@@ -205,7 +205,7 @@ void Get_WebPage()
       temp_str = request->getParam(PARAM_INPUT_3)->value();
       if(Time_String_Valid(temp_str) == true)
       {
-        if(temp_str == "empty" || temp_str == "")
+        if(temp_str == "empty" || temp_str == "none" || temp_str == "")
         {
           temp_str = "empty";
         }
@@ -237,7 +237,7 @@ void Get_WebPage()
       temp_str = request->getParam(PARAM_INPUT_5)->value();
       if(Time_String_Valid(temp_str) == true)
       {
-        if(temp_str == "empty" || temp_str == "")
+        if(temp_str == "empty" || temp_str == "none" ||temp_str == "")
         {
           temp_str = "empty";
         }
@@ -269,7 +269,7 @@ void Get_WebPage()
       temp_str = request->getParam(PARAM_INPUT_7)->value();
       if(Time_String_Valid(temp_str) == true)
       {
-        if(temp_str == "empty" || temp_str == "")
+        if(temp_str == "empty" || temp_str == "none" || temp_str == "")
         {
           temp_str = "empty";
         }
@@ -301,7 +301,7 @@ void Get_WebPage()
       temp_str = request->getParam(PARAM_INPUT_9)->value();
       if(Time_String_Valid(temp_str) == true)
       {
-        if(temp_str == "empty" || temp_str == "")
+        if(temp_str == "empty" || temp_str == "none" || temp_str == "")
         {
           temp_str = "empty";
         }
@@ -333,7 +333,7 @@ void Get_WebPage()
       temp_str = request->getParam(PARAM_INPUT_11)->value();
       if(Time_String_Valid(temp_str) == true)
       {
-        if(temp_str == "empty" || temp_str == "")
+        if(temp_str == "empty" || temp_str == "none" || temp_str == "")
         {
           temp_str = "empty";
         }
@@ -407,7 +407,7 @@ bool Time_String_Valid(String Time_String)
   bool String_valid = false;
   uint8_t char_count = 0;
   uint8_t prev_idx = 0; 
-   if(Time_String == "none" || Time_String == "")
+   if(Time_String == "empty" || Time_String == "none" || Time_String == "")
    {
     String_valid = true;
    }
