@@ -14,6 +14,7 @@ const char* PARAM_INPUT_11 = "input11";
 const char* PARAM_INPUT_12 = "input12";
 const char* PARAM_INPUT_13 = "input13";
 const char* PARAM_INPUT_14 = "input14";
+const char* PARAM_INPUT_15 = "input15";
 
 String temp_str;
 uint16_t temp_int;
@@ -151,6 +152,11 @@ void Update_WebPage()
   WS.html+= "<form action=\"/get\">";
   WS.html+= "WiFi Reconnect Seconds: <input type=\"number\" name=\"input14\" min=\"5\" max=\"240\" value=\"30\">";
   WS.html+= "<input type=\"submit\" value=\"Submit\">";
+  WS.html+= "</form><br><br>";
+
+  // Input button to Reset ESP32
+  WS.html+= "<form action=\"/get\">";
+  WS.html+= "Reset ESP32: <input type=\"submit\" name=\"input15\" value=\"Submit\">";
   WS.html+= "</form><br><br>";
   
   WS.html+= "</body></html>";
@@ -387,6 +393,11 @@ void Get_WebPage()
       #ifdef SERIAL_DEBUG
         Serial.println(WS.WiFi_Reconnect_Sec);
       #endif
+    }
+
+    else if(request->hasParam(PARAM_INPUT_15))
+    {
+      ESP.restart();
     }
     
     Update_WebPage();
