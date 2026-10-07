@@ -32,29 +32,29 @@ void RTOS_Init()
 void Task1code( void * pvParameters )
 {
   while(1)
-  {
-      AC.CurrentMillis = millis();
-      App_Mode_Loop();
-      Water_Level_Loop();
-      Motor_Loop();
-      Set_Leds();
-      GetLocalTime();
-      LCD_Display_App_Stats();
+  { 
+    AC.CurrentMillis = millis();
+    App_Mode_Loop();
+    Water_Level_Loop();
+    Motor_Loop();
+    Set_Leds();
+    GetLocalTime();
+    LCD_Display_App_Stats();
       
-      // if WiFi is down, try reconnecting
-      if ((WiFi.status() != WL_CONNECTED) && (AC.CurrentMillis - AC.WiFi_Reconnect_Status_PreviousMillis >= WS.WiFi_Reconnect_Sec * 1000)) 
-      {
-        #ifdef SERIAL_DEBUG
-          Serial.println("try reconnecting to WiFi");
-        #endif
-        WiFi_Reconnect();
-        AC.WiFi_Reconnect_Status_PreviousMillis = AC.CurrentMillis;
-      }
+    // if WiFi is down, try reconnecting
+    if ((WiFi.status() != WL_CONNECTED) && (AC.CurrentMillis - AC.WiFi_Reconnect_Status_PreviousMillis >= WS.WiFi_Reconnect_Sec * 1000)) 
+    {
+      #ifdef SERIAL_DEBUG
+        Serial.println("try reconnecting to WiFi");
+      #endif
+      WiFi_Reconnect();
+      AC.WiFi_Reconnect_Status_PreviousMillis = AC.CurrentMillis;
+    }
   
-      if(AC.Mute_Audio == true && (AC.CurrentMillis - AC.Audio_Mute_Status_PreviousMillis >= (WS.Audio_Mute_Min * 60 * 1000)))
-      {
-        AC.Mute_Audio = false;
-      }
+    if(AC.Mute_Audio == true && (AC.CurrentMillis - AC.Audio_Mute_Status_PreviousMillis >= (WS.Audio_Mute_Min * 60 * 1000)))
+    {
+      AC.Mute_Audio = false;
+    }
   }
 }
 
