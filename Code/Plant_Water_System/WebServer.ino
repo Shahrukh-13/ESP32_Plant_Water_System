@@ -397,6 +397,9 @@ void Get_WebPage()
 
     else if(request->hasParam(PARAM_INPUT_15))
     {
+      #ifdef SERIAL_DEBUG
+        Serial.println("Reset Command");
+      #endif
       ESP.restart();
     }
     
@@ -417,7 +420,8 @@ bool Time_String_Valid(String Time_String)
 {
   bool String_valid = false;
   uint8_t char_count = 0;
-  uint8_t prev_idx = 0; 
+  uint8_t prev_idx = 0;
+  uint8_t temp_val = 0; 
  if(Time_String == "empty" || Time_String == "none" || Time_String == "")
  {  
   String_valid = true;
@@ -446,7 +450,55 @@ bool Time_String_Valid(String Time_String)
      String_valid = false;
      return String_valid; 
    }
-  
+
+   //Valid numbers for hours
+   if(isOnlyNumbers(Time_String.substring((Time_String.length() -11), (Time_String.length() - 9))))
+   {
+     temp_val = Time_String.substring((Time_String.length() -11), (Time_String.length() - 9)).toInt();
+
+     if (temp_val > 1 && temp_val <= 12)
+     {
+       String_valid = true; 
+     }
+   }
+   else
+   {
+     String_valid = false;
+     return String_valid; 
+   }
+
+   //Valid number for minutes
+   if(isOnlyNumbers(Time_String.substring((Time_String.length() - 8), (Time_String.length() - 6))))
+   {
+     temp_val = Time_String.substring((Time_String.length() - 8), (Time_String.length() - 6)).toInt();
+
+     if (temp_val >= 0 && temp_val <= 59)
+     {
+       String_valid = true; 
+     }
+   }
+   else
+   {
+     String_valid = false;
+     return String_valid; 
+   }
+
+   //Valid number for seconds
+   if(isOnlyNumbers(Time_String.substring((Time_String.length() - 5), (Time_String.length() - 3))))
+   {
+     temp_val = Time_String.substring((Time_String.length() - 5), (Time_String.length() - 3)).toInt();
+
+     if (temp_val >= 0 && temp_val <= 59)
+     {
+       String_valid = true; 
+     }
+   }
+   else
+   {
+     String_valid = false;
+     return String_valid; 
+   }
+   
    //Check that the total numbers of colon character(:) in the string are atleast 4 and max 10
    for (uint8_t i = 0; i < Time_String.length(); i++) 
    {
@@ -793,4 +845,18 @@ int countSubstring(String mainStr, String subStr)
   }
 
   return count;
+}
+
+bool isOnlyNumbers(String str) 
+{
+  if (str.length() == 0) return false; // Empty string isn't numeric
+  
+  for (unsigned int i = 0; i < str.length(); i++) 
+  {
+    if (!isDigit(str.charAt(i))) 
+    {
+      return false; // Found a non-digit character, exit early
+    }
+  }
+  return true; // Checked everything, it's safe!
 }

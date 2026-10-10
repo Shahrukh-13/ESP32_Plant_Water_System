@@ -122,7 +122,7 @@ void MCP_Gpio_Init()
     #ifdef SERIAL_DEBUG
       Serial.println("Error connecting to MCP23017");
     #endif
-    while (1);
+    while(1);
   }
   
   for(uint8_t i=0; i<NUMBER_OF_MCP_GPIO; i++)

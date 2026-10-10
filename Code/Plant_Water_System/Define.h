@@ -200,7 +200,7 @@ struct ntp_time
 struct webserver_info
 {
   String html;
-  char index_html[2500];
+  char index_html[3000];
   String Saved_WiFi_SSID;
   String Saved_WiFi_Password; 
   String New_WiFi_SSID;
