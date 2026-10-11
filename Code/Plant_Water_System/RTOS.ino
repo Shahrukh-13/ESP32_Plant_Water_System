@@ -33,7 +33,6 @@ void Task1code( void * pvParameters )
 {
   while(1)
   { 
-    AC.CurrentMillis = millis();
     App_Mode_Loop();
     Water_Level_Loop();
     Motor_Loop();
@@ -56,6 +55,7 @@ void Task1code( void * pvParameters )
       AC.Mute_Audio = false;
       TIME_VALVE_CFG_Struct_Set();
     }
+    vTaskDelay(pdMS_TO_TICKS(1));
   }
 }
 
@@ -64,17 +64,19 @@ void Task2code( void * pvParameters )
 {
   while(1)
   {
-    delay(500);
+    vTaskDelay(pdMS_TO_TICKS(500)); 
     if(AC.Do_Harp_LED == true)
     {
       //reconfiguring pin to OUTPUT here
       pinMode(WiFi_Status_LED, OUTPUT);
       All_ESP32_LEDs_OFF();
       Do_Harp_LED();
-      delay(100);
+      vTaskDelay(pdMS_TO_TICKS(100)); 
     }
     
     //reconfiguring pin to OUTPUT here
     pinMode(WiFi_Status_LED, OUTPUT);
+    
+    vTaskDelay(pdMS_TO_TICKS(1)); 
   }
 }

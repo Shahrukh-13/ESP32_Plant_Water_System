@@ -83,14 +83,8 @@ void TIME_VALVE_CFG_Struct_Set()
   TIME_VALVE_CFG[1].Vale_Time_String_Fri = Get_Day_Time_String(WS.Plant1_Time, "Fri");
   TIME_VALVE_CFG[1].Vale_Time_String_Sat = Get_Day_Time_String(WS.Plant1_Time, "Sat");
   TIME_VALVE_CFG[1].Vale_Time_String_Sun = Get_Day_Time_String(WS.Plant1_Time, "Sun");
-  if(AC.Mute_Audio == false)
-  {
-    TIME_VALVE_CFG[1].Valve_Open_Sec = WS.Plant1_Valve_Open_Sec + 2; 
-  }
-  else
-  {
-    TIME_VALVE_CFG[1].Valve_Open_Sec = WS.Plant1_Valve_Open_Sec; 
-  }
+  TIME_VALVE_CFG[1].Valve_Open_Sec = WS.Plant1_Valve_Open_Sec; 
+  
   /*#ifdef SERIAL_DEBUG
     Serial.println("Valve1 Timings");
     Serial.println(TIME_VALVE_CFG[1].Vale_Time_String_Mon);
@@ -110,14 +104,7 @@ void TIME_VALVE_CFG_Struct_Set()
   TIME_VALVE_CFG[2].Vale_Time_String_Fri = Get_Day_Time_String(WS.Plant2_Time, "Fri");
   TIME_VALVE_CFG[2].Vale_Time_String_Sat = Get_Day_Time_String(WS.Plant2_Time, "Sat");
   TIME_VALVE_CFG[2].Vale_Time_String_Sun = Get_Day_Time_String(WS.Plant2_Time, "Sun");
-  if(AC.Mute_Audio == false)
-  {
-    TIME_VALVE_CFG[2].Valve_Open_Sec = WS.Plant2_Valve_Open_Sec + 2;
-  }
-  else
-  {
-    TIME_VALVE_CFG[2].Valve_Open_Sec = WS.Plant2_Valve_Open_Sec;
-  }
+  TIME_VALVE_CFG[2].Valve_Open_Sec = WS.Plant2_Valve_Open_Sec;
   /*#ifdef SERIAL_DEBUG
     Serial.println("Valve2 Timings");
     Serial.println(TIME_VALVE_CFG[2].Vale_Time_String_Mon);
@@ -137,14 +124,7 @@ void TIME_VALVE_CFG_Struct_Set()
   TIME_VALVE_CFG[3].Vale_Time_String_Fri = Get_Day_Time_String(WS.Plant3_Time, "Fri");
   TIME_VALVE_CFG[3].Vale_Time_String_Sat = Get_Day_Time_String(WS.Plant3_Time, "Sat");
   TIME_VALVE_CFG[3].Vale_Time_String_Sun = Get_Day_Time_String(WS.Plant3_Time, "Sun");
-  if(AC.Mute_Audio == false)
-  {
-    TIME_VALVE_CFG[3].Valve_Open_Sec = WS.Plant3_Valve_Open_Sec + 2;
-  }
-  else
-  {
-    TIME_VALVE_CFG[3].Valve_Open_Sec = WS.Plant3_Valve_Open_Sec;
-  }
+  TIME_VALVE_CFG[3].Valve_Open_Sec = WS.Plant3_Valve_Open_Sec;
   /*#ifdef SERIAL_DEBUG
     Serial.println("Valve3 Timings");
     Serial.println(TIME_VALVE_CFG[3].Vale_Time_String_Mon);
@@ -164,14 +144,7 @@ void TIME_VALVE_CFG_Struct_Set()
   TIME_VALVE_CFG[4].Vale_Time_String_Fri = Get_Day_Time_String(WS.Plant4_Time, "Fri");
   TIME_VALVE_CFG[4].Vale_Time_String_Sat = Get_Day_Time_String(WS.Plant4_Time, "Sat");
   TIME_VALVE_CFG[4].Vale_Time_String_Sun = Get_Day_Time_String(WS.Plant4_Time, "Sun");
-  if(AC.Mute_Audio == false)
-  {
-    TIME_VALVE_CFG[4].Valve_Open_Sec = WS.Plant4_Valve_Open_Sec + 2; 
-  }
-  else
-  {
-    TIME_VALVE_CFG[4].Valve_Open_Sec = WS.Plant4_Valve_Open_Sec; 
-  }
+  TIME_VALVE_CFG[4].Valve_Open_Sec = WS.Plant4_Valve_Open_Sec; 
   /*#ifdef SERIAL_DEBUG
     Serial.println("Valve4 Timings");
     Serial.println(TIME_VALVE_CFG[4].Vale_Time_String_Mon);
@@ -191,14 +164,7 @@ void TIME_VALVE_CFG_Struct_Set()
   TIME_VALVE_CFG[5].Vale_Time_String_Fri = Get_Day_Time_String(WS.Plant5_Time, "Fri");
   TIME_VALVE_CFG[5].Vale_Time_String_Sat = Get_Day_Time_String(WS.Plant5_Time, "Sat");
   TIME_VALVE_CFG[5].Vale_Time_String_Sun = Get_Day_Time_String(WS.Plant5_Time, "Sun");
-  if(AC.Mute_Audio == false)
-  {
-    TIME_VALVE_CFG[5].Valve_Open_Sec = WS.Plant5_Valve_Open_Sec + 2; 
-  }
-  else
-  {
-    TIME_VALVE_CFG[5].Valve_Open_Sec = WS.Plant5_Valve_Open_Sec; 
-  }
+  TIME_VALVE_CFG[5].Valve_Open_Sec = WS.Plant5_Valve_Open_Sec; 
   /*#ifdef SERIAL_DEBUG
     Serial.println("Valve5 Timings");
     Serial.println(TIME_VALVE_CFG[5].Vale_Time_String_Mon);

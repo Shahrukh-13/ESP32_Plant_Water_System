@@ -21,7 +21,7 @@ void setup()
 
 void loop() 
 {
- 
+  AC.CurrentMillis = millis();
 }
 
 void App_Init()
@@ -66,6 +66,10 @@ void App_Mode_Loop()
           {
             Valve_Select(TIME_VALVE_CFG[i].Valve_ID);
             AC.Which_Valve_Enabled = TIME_VALVE_CFG[i].Valve_ID;
+            #ifdef SERIAL_DEBUG
+              Serial.println("play audio");
+              Serial.println(AC.CurrentMillis);
+            #endif
             if(AC.Mute_Audio == false)
             {
               AC.Do_Harp_LED = true;
