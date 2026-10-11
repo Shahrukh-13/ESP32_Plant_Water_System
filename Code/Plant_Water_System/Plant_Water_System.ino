@@ -101,6 +101,7 @@ void App_Mode_Loop()
               Serial.println();
               Serial.println(AC.CurrentMillis);
             #endif
+            TIME_VALVE_CFG_Struct_Set();
           }
         }
         AC.State = APP_STATE_NORMAL;
