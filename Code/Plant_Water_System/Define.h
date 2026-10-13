@@ -90,7 +90,8 @@ typedef enum
 {
   WATER_LEVEL_LOW = 0,
   WATER_LEVEL_NOT_FULL,
-  WATER_LEVEL_FULL
+  WATER_LEVEL_FULL,
+  WATER_LEVEL_INVALID
 }water_level_state_t;
 
 typedef enum

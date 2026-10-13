@@ -76,7 +76,7 @@ void LCD_Display_App_Stats()
                                      WiFi.localIP().toString(),
                                      NTP.Time.c_str(),
                                      (AC.Test_Mode_Switch_Val == 0) ? "Normal" : "Test",
-                                     (WL.State == WATER_LEVEL_LOW) ? "Low" : (WL.State == WATER_LEVEL_NOT_FULL) ? "Not Full" : "Full",
+                                     (WL.State == WATER_LEVEL_LOW) ? "Low" : (WL.State == WATER_LEVEL_NOT_FULL) ? "Not Full" : (WL.State == WATER_LEVEL_INVALID) ? "Invalid" : "Full",
                                      (AC.Valve_Is_Open == false) ? "No" : "Yes",
                                      (AC.Hex_Encoder_Val >5) ? "None" : String(AC.Hex_Encoder_Val).c_str(),
                                      MS[MOTOR_DRAIN].Motor_Good_To_Run,
@@ -94,7 +94,7 @@ void LCD_Display_App_Stats()
                                      "Drain Motor good: %d\n"
                                      "Refill Motor good: %d",
                                      (AC.Test_Mode_Switch_Val == 0) ? "Normal" : "Test",
-                                     (WL.State == WATER_LEVEL_LOW) ? "Low" : (WL.State == WATER_LEVEL_NOT_FULL) ? "Not Full" : "Full",
+                                     (WL.State == WATER_LEVEL_LOW) ? "Low" : (WL.State == WATER_LEVEL_NOT_FULL) ? "Not Full" : (WL.State == WATER_LEVEL_INVALID) ? "Invalid" : "Full",
                                      (AC.Valve_Is_Open == false) ? "No" : "Yes",
                                      (AC.Hex_Encoder_Val >5) ? "None" : String(AC.Hex_Encoder_Val).c_str(),
                                      MS[MOTOR_DRAIN].Motor_Switch_val,
