@@ -43,6 +43,12 @@ void Water_Level_Loop()
         MS[MOTOR_REFILL].Motor_Good_To_Run = true;
         WL.State = WATER_LEVEL_NOT_FULL; 
       }
+      else if(WL.Sensor_Full_Val == 0 && WL.Sensor_Low_Val == 0)
+      {
+        MS[MOTOR_DRAIN].Motor_Good_To_Run = true;
+        MS[MOTOR_REFILL].Motor_Good_To_Run = false;
+        WL.State = WATER_LEVEL_FULL; 
+      }
     break;
     
     case WATER_LEVEL_NOT_FULL:
@@ -67,13 +73,19 @@ void Water_Level_Loop()
     break;
     
     case WATER_LEVEL_FULL:
-      if(WL.Sensor_Full_Val == 1 && WL.Sensor_Low_Val == 0)
+      if(WL.Sensor_Full_Val == 1 && WL.Sensor_Low_Val == 1)
+      {
+        MS[MOTOR_DRAIN].Motor_Good_To_Run = false;
+        MS[MOTOR_REFILL].Motor_Good_To_Run = true;
+        WL.State = WATER_LEVEL_LOW; 
+      }
+      else if(WL.Sensor_Full_Val == 1 && WL.Sensor_Low_Val == 0)
       {
         MS[MOTOR_DRAIN].Motor_Good_To_Run = true;
         MS[MOTOR_REFILL].Motor_Good_To_Run = true;
         WL.State = WATER_LEVEL_NOT_FULL; 
       }
-      if(WL.Sensor_Full_Val == 0 && WL.Sensor_Low_Val == 0)
+      else if(WL.Sensor_Full_Val == 0 && WL.Sensor_Low_Val == 0)
       {
         MS[MOTOR_DRAIN].Motor_Good_To_Run = true;
         MS[MOTOR_REFILL].Motor_Good_To_Run = false;

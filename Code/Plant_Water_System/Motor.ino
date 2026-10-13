@@ -119,20 +119,31 @@ void Motor_Command(motor_id_t id, bool Enable)
     case MOTOR_DRAIN:
       if(Enable == true && AC.Valve_Is_Open == true)
       {
-        if(EBS.Drain_Bottle_Full_Val == 0)
+        if(AC.State == APP_STATE_TEST && AC.Hex_Encoder_Val == 0)
+        {
+          if(EBS.Drain_Bottle_Full_Val == 0)
+          {
+            #ifdef SERIAL_DEBUG
+              //Serial.print("Drain _Motor: Enable , ");
+            #else
+             digitalWrite(Drain_Motor_Enable, MOTOR_ENABLE);
+            #endif
+          }
+          else
+          {
+            #ifdef SERIAL_DEBUG
+              //Serial.print("Drain _Motor: Stop , ");
+            #else
+             digitalWrite(Drain_Motor_Enable, MOTOR_DISABLE);
+            #endif
+          }
+        }
+        else if(AC.State == APP_STATE_NORMAL || (AC.State == APP_STATE_TEST && AC.Hex_Encoder_Val != 0))
         {
           #ifdef SERIAL_DEBUG
             //Serial.print("Drain _Motor: Enable , ");
           #else
-           digitalWrite(Drain_Motor_Enable, MOTOR_ENABLE);
-          #endif
-        }
-        else
-        {
-          #ifdef SERIAL_DEBUG
-            //Serial.print("Drain _Motor: Stop , ");
-          #else
-           digitalWrite(Drain_Motor_Enable, MOTOR_DISABLE);
+            digitalWrite(Drain_Motor_Enable, MOTOR_ENABLE);
           #endif
         }
       }
