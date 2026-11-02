@@ -167,6 +167,7 @@ struct app_config
   unsigned long WiFi_Reconnect_Status_PreviousMillis;
   unsigned long Valve_Status_PreviousMillis;
   unsigned long Audio_Mute_Status_PreviousMillis;
+  bool Change_water_Flag;
 };
 
 struct wifi_config
@@ -220,7 +221,7 @@ struct webserver_info
   uint16_t Plant5_Valve_Open_Sec;
   uint32_t Audio_Mute_Min;
   uint32_t WiFi_Reconnect_Sec;
-  uint8_t  Water_Change_Interval_days;
+  uint16_t Water_Change_Interval_days;
   String   Water_Change_Date;
 };
 

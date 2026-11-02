@@ -28,6 +28,8 @@ void GetLocalTime()
 
   strftime(chBuffer, sizeof(chBuffer), "%m/%d/%Y", &timeinfo);
   NTP.Date = String(chBuffer);
+
+  AC.Change_water_Flag = isOneMonthApart(WS.Water_Change_Date, NTP.Date);
   
   // Obtain Time Hr:Min:Sec
   strftime(NTP.chHour, sizeof(NTP.chHour), "%I", & timeinfo);

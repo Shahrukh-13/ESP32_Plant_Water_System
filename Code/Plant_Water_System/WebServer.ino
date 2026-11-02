@@ -15,6 +15,8 @@ const char* PARAM_INPUT_12 = "input12";
 const char* PARAM_INPUT_13 = "input13";
 const char* PARAM_INPUT_14 = "input14";
 const char* PARAM_INPUT_15 = "input15";
+const char* PARAM_INPUT_16 = "input16";
+const char* PARAM_INPUT_17 = "input17";
 
 String temp_str;
 uint16_t temp_int;
@@ -144,7 +146,7 @@ void Update_WebPage()
 
   // Heading to display WiFi reconnect interval in seconds in EEPROM
   WS.html+= "<h3>";
-  WS.html+= "WiFi Reconnect Seconds: " + String(WS.WiFi_Reconnect_Sec);
+  WS.html+= "Saved WiFi Reconnect Seconds: " + String(WS.WiFi_Reconnect_Sec);
   WS.html+= "<br>"; //new line in heading
   WS.html+= "</h3>";
 
@@ -154,9 +156,32 @@ void Update_WebPage()
   WS.html+= "<input type=\"submit\" value=\"Submit\">";
   WS.html+= "</form><br><br>";
 
+  // Heading to display current saved Water Change Interval Days in EEPROM
+  WS.html+= "<h3>";
+  WS.html+= "Saved Water Change Interval Days: " + String(WS.Water_Change_Interval_days);
+  WS.html+= "<br>"; //new line in heading
+  WS.html+= "</h3>";
+  
+  // Input field for New Water Change Interval days
+  WS.html+= "<form action=\"/get\">";
+  WS.html+= "Water Change Interval days: <input type=\"number\" name=\"input15\" min=\"1\" max=\"255\" value=\"30\">";
+  WS.html+= "<input type=\"submit\" value=\"Submit\">";
+  WS.html+= "</form><br><br>";
+
+  // Heading to display current saved Water reset date in EEPROM
+  WS.html+= "<h3>";
+  WS.html+= "Saved Water Reset Date: " + WS.Water_Change_Date;
+  WS.html+= "<br>"; //new line in heading
+  WS.html+= "</h3>";
+
+  // Input button to Reset Water Change Date
+  WS.html+= "<form action=\"/get\">";
+  WS.html+= "Reset Water Change Date: <input type=\"submit\" name=\"input16\" value=\"Submit\">";
+  WS.html+= "</form><br><br>";
+  
   // Input button to Reset ESP32
   WS.html+= "<form action=\"/get\">";
-  WS.html+= "Reset ESP32: <input type=\"submit\" name=\"input15\" value=\"Submit\">";
+  WS.html+= "Reset ESP32: <input type=\"submit\" name=\"input17\" value=\"Submit\">";
   WS.html+= "</form><br><br>";
   
   WS.html+= "</body></html>";
@@ -396,6 +421,29 @@ void Get_WebPage()
     }
 
     else if(request->hasParam(PARAM_INPUT_15))
+    {
+      temp_int = request->getParam(PARAM_INPUT_15)->value().toInt();
+      if(temp_int != WS.Water_Change_Interval_days)
+      {
+        WS.Water_Change_Interval_days = temp_int;
+        EEPROM.write(EEPROM_WATER_CHANGE_INTERVAL_DAYS, WS.Water_Change_Interval_days);
+        EEPROM.commit();
+        WS.Water_Change_Interval_days = EEPROM.read(EEPROM_WATER_CHANGE_INTERVAL_DAYS);
+      }
+    }
+
+    else if(request->hasParam(PARAM_INPUT_16))
+    {
+      temp_str = NTP.Date;
+      if(temp_str != WS.Water_Change_Date)
+      {
+        WS.Water_Change_Date = temp_str;
+        Write_String_EEPROM(EEPROM_WATER_CHANGE_DATE , WS.Water_Change_Date);
+        WS.Water_Change_Date = Read_String_EEPROM(EEPROM_WATER_CHANGE_DATE );
+      }
+    }
+    
+    else if(request->hasParam(PARAM_INPUT_17))
     {
       #ifdef SERIAL_DEBUG
         Serial.println("Reset Command");

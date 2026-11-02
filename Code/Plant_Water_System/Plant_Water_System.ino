@@ -41,6 +41,8 @@ void App_Init()
   AC.CurrentMillis = 0;
   AC.WiFi_Reconnect_Status_PreviousMillis = 0;
   AC.Audio_Mute_Status_PreviousMillis = 0;
+
+  AC.Change_water_Flag = false;
 }
 
 void App_Mode_Loop()
