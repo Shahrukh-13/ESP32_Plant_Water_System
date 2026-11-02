@@ -140,6 +140,24 @@ void EEPROM_Init()
     EEPROM.commit();
     WS.WiFi_Reconnect_Sec = EEPROM.read(EEPROM_WIFI_RECON_SEC);
   }
+
+  //Set Water Change Interval Days to 30 if nothing saved on EEPROM
+  WS.Water_Change_Interval_days = EEPROM.read(EEPROM_WATER_CHANGE_INTERVAL_DAYS);
+  if(WS.Water_Change_Interval_days == 0xFF)
+  {
+    WS.Water_Change_Interval_days = 30;
+    EEPROM.write(EEPROM_WATER_CHANGE_INTERVAL_DAYS, WS.Water_Change_Interval_days);
+    EEPROM.commit();
+    WS.Water_Change_Interval_days = EEPROM.read(EEPROM_WATER_CHANGE_INTERVAL_DAYS);
+  }
+
+  //Set Water_Change_Date to "empty" if nothing saved on EEPROM
+  WS.Water_Change_Date = Read_String_EEPROM(EEPROM_WATER_CHANGE_DATE);
+  if(WS.Water_Change_Date == "empty")
+  {
+    Write_String_EEPROM(EEPROM_WATER_CHANGE_DATE , WS.Water_Change_Date);
+    WS.Water_Change_Date = Read_String_EEPROM(EEPROM_WATER_CHANGE_DATE );
+  }
 }
 
 

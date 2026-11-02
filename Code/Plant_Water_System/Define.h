@@ -77,6 +77,8 @@
 #define EEPROM_PLANT5_VALVE_OPEN_SEC          355
 #define EEPROM_AUDIO_MUTE_MIN                 356
 #define EEPROM_WIFI_RECON_SEC                 357
+#define EEPROM_WATER_CHANGE_INTERVAL_DAYS     358
+#define EEPROM_WATER_CHANGE_DATE              359
 
 //Declare the MCP23X17 object
 Adafruit_MCP23X17 mcp;
@@ -185,7 +187,7 @@ struct ntp_time
   long gmtOffset_sec;
   int daylightOffset_sec;
   String Date;
-  String Year;
+  //String Year;
   String Time;
   char chDayOfMonth[3];                                    // Day of month (0 through 31).
   char chDayofWeek[4];                                     // Day of week (Sunday through Saturday).
@@ -200,17 +202,17 @@ struct ntp_time
 
 struct webserver_info
 {
-  String html;
-  char index_html[3000];
-  String Saved_WiFi_SSID;
-  String Saved_WiFi_Password; 
-  String New_WiFi_SSID;
-  String New_WiFi_Password; 
-  String Plant1_Time;
-  String Plant2_Time;
-  String Plant3_Time;
-  String Plant4_Time;
-  String Plant5_Time;
+  String   html;
+  char     index_html[3000];
+  String   Saved_WiFi_SSID;
+  String   Saved_WiFi_Password; 
+  String   New_WiFi_SSID;
+  String   New_WiFi_Password; 
+  String   Plant1_Time;
+  String   Plant2_Time;
+  String   Plant3_Time;
+  String   Plant4_Time;
+  String   Plant5_Time;
   uint16_t Plant1_Valve_Open_Sec;
   uint16_t Plant2_Valve_Open_Sec;
   uint16_t Plant3_Valve_Open_Sec;
@@ -218,6 +220,8 @@ struct webserver_info
   uint16_t Plant5_Valve_Open_Sec;
   uint32_t Audio_Mute_Min;
   uint32_t WiFi_Reconnect_Sec;
+  uint8_t  Water_Change_Interval_days;
+  String   Water_Change_Date;
 };
 
 struct time_valve_config
