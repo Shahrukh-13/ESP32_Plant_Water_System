@@ -29,7 +29,7 @@ void GetLocalTime()
   strftime(chBuffer, sizeof(chBuffer), "%m/%d/%Y", &timeinfo);
   NTP.Date = String(chBuffer);
 
-  AC.Change_water_Flag = isOneMonthApart(WS.Water_Change_Date, NTP.Date);
+  AC.Change_water_Flag = IntervalDaysPast(WS.Water_Change_Date, NTP.Date);
   
   // Obtain Time Hr:Min:Sec
   strftime(NTP.chHour, sizeof(NTP.chHour), "%I", & timeinfo);
@@ -48,8 +48,8 @@ void GetLocalTime()
   #endif
 }
 
-// Function to check if D2 is approximately 1 month after D1
-bool isOneMonthApart(String D1, String D2) 
+// Function to check if the required interval days have passed from D1 to D2
+bool IntervalDaysPast(String D1, String D2) 
 {
   struct tm timeinfo1;
   struct tm timeinfo2;
@@ -99,7 +99,7 @@ bool isOneMonthApart(String D1, String D2)
   //Convert seconds to days (86400 seconds in a day)
   double days = seconds / 86400;
 
-  if (days >=30)
+  if (days >= WS.Water_Change_Interval_days)
   {
     return true;
   }
